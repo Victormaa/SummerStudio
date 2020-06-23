@@ -35,6 +35,7 @@ public class Movement : MonoBehaviour
 
         if (Input.GetButtonDown("Crouch"))
             crouch = true;
+            
 
             
 
@@ -54,6 +55,6 @@ public class Movement : MonoBehaviour
 
     public void onCrouch(bool crouch)
     {
-            Debug.Log(crouch);
+        Debug.Log(crouch);
     }
 }
