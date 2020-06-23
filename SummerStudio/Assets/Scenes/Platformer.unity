@@ -297,9 +297,9 @@ GameObject:
   - component: {fileID: 413557256}
   - component: {fileID: 413557257}
   - component: {fileID: 413557258}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Physical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 915327706}
   - component: {fileID: 915327707}
   - component: {fileID: 915327708}
+  - component: {fileID: 915327709}
   m_Layer: 8
   m_Name: Role
   m_TagString: Untagged
@@ -741,6 +742,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 40
+--- !u!114 &915327709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915327704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f48dd96f5c7664084ead03e86aeab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  w_Type: 1
 --- !u!1 &953155662
 GameObject:
   m_ObjectHideFlags: 0
