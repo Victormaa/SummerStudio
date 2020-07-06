@@ -30,18 +30,11 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeHealth()
+    public void TakeHealth(GameObject obj)
     {
-        if(current_health == max_health)
-        {
-            //do not collide with health
-        }
-        else
-        {
-            current_health++; //add to health
-            hearts[current_health - 1].enabled = true; //show heart
-        }
-
+        current_health++; //add to health
+        hearts[current_health - 1].enabled = true; //show heart
+        Destroy(obj);
     }
 
     public int ReturnHealth()
@@ -60,9 +53,13 @@ public class Health : MonoBehaviour
         {
             TakeDamage();
         }
-        else if(collision.gameObject.tag == "Health")
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Health" && current_health < max_health)
         {
-            TakeHealth();
+            TakeHealth(collision.gameObject);
         }
     }
 }
