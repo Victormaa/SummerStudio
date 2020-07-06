@@ -1481,7 +1481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 668990743}
   speed: 1
-  slowdown: 0.05
+  slowdown: 0.5
 --- !u!4 &848503999
 Transform:
   m_ObjectHideFlags: 0
@@ -1571,7 +1571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 400
   m_CrouchSpeed: 0.36
-  m_MovementSmoothing: 0.3
+  m_MovementSmoothing: 0
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
