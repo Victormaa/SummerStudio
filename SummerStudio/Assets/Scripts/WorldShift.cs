@@ -8,6 +8,7 @@ public class WorldShift : MonoBehaviour
     private bool ignore_Layer = true;
     public GameObject physical_world;
     public GameObject kenos_world;
+    public GameObject PostProcessVolume;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,16 @@ public class WorldShift : MonoBehaviour
             ignore_Layer = !ignore_Layer; //toggle ignore field
 
             ToggleWorldVisibility(w_Type);
+        }
+
+        if(w_Type == true)
+        {
+            PostProcessVolume.SetActive(false);
+        }
+
+        else if(w_Type == false)
+        {
+            PostProcessVolume.SetActive(true);
         }
     }
 

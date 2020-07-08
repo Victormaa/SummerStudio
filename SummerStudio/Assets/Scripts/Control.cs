@@ -25,6 +25,7 @@ public class Control : MonoBehaviour
     #endregion
     public float _timer = 0.0f;
 
+
     public delegate void Click();
 
     static public Click takephoto;
