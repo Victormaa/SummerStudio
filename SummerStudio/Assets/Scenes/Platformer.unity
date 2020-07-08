@@ -1512,8 +1512,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 668990743}
+  player: {fileID: 915327704}
+  bulletTimeEnabled: 0
   speed: 1
   slowdown: 0.5
+  gravity: 2
 --- !u!4 &848503999
 Transform:
   m_ObjectHideFlags: 0
@@ -1610,6 +1613,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3639
   m_GroundCheck: {fileID: 1106044168}
+  coyoteTime: 0.2
   m_CeilingCheck: {fileID: 1990516364}
   m_CrouchDisableCollider: {fileID: 362742320}
   OnLandEvent:
