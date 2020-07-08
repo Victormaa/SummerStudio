@@ -9,15 +9,18 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
+	[Range(0, 1)] [SerializeField] private float coyoteTime = .2f;				// Amount of time after leaving platform that jump still works
+	
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
-
+	
 	const float k_GroundedRadius = .02f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
 	const float k_CeilingRadius = .02f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+	private float timeLeftPlatform;	//Time that the player was last on a platform.
 
 	[Header("Events")]
 	[Space]
@@ -53,6 +56,7 @@ public class CharacterController2D : MonoBehaviour
 		{
 			if (colliders[i].gameObject != gameObject)
 			{
+				timeLeftPlatform = Time.time;
 				m_Grounded = true;
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
@@ -124,11 +128,15 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 		// If the player should jump...
-		if (m_Grounded && jump)
+		if (jump && (m_Grounded || Time.time-timeLeftPlatform < coyoteTime))
 		{
 			// Add a vertical force to the player.
+			timeLeftPlatform = Time.time - (2* coyoteTime); //Sets time left far enough back to avoid double jumps
 			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			Vector3 vel = m_Rigidbody2D.velocity; //takes a snapshot of current velocity so jump can overwrite y velocity
+			vel.y = 0f; //resets y velocity so jump is always same height.
+			m_Rigidbody2D.velocity = vel; //puts snapshot back in with zeroed y velocity
+			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce)); //adds y velocity of jump
 		}
 	}
 
