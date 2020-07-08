@@ -13,6 +13,8 @@ public class Movement : MonoBehaviour
     bool jump = false;
 
     float horizontalMove = 0;
+
+    public Texture2D CursorTex;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,9 @@ public class Movement : MonoBehaviour
         }
 
         m_controller2D.OnCrouchEvent.AddListener(onCrouch);
+
+        Cursor.SetCursor(CursorTex, Vector2.zero, CursorMode.ForceSoftware);
+       
     }
 
     // Update is called once per frame
