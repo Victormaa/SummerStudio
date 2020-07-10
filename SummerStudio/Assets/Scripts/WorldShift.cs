@@ -9,6 +9,7 @@ public class WorldShift : MonoBehaviour
     public GameObject physical_world;
     public GameObject kenos_world;
     public GameObject PostProcessVolume;
+    public GameObject gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +27,7 @@ public class WorldShift : MonoBehaviour
             Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
             Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
             ignore_Layer = !ignore_Layer; //toggle ignore field
-
-            ToggleWorldVisibility(w_Type);
+            ToggleWorldVisibilityWithSlowdown(w_Type);
         }
 
         if(w_Type == true)
@@ -54,4 +54,20 @@ public class WorldShift : MonoBehaviour
             kenos_world.SetActive(true);
         }
     }
+
+    void ToggleWorldVisibilityWithSlowdown(bool world_state)
+    {
+        if(world_state)
+        {
+            physical_world.SetActive(true);
+            kenos_world.SetActive(false);
+        }
+        else
+        {
+            physical_world.SetActive(false);
+            kenos_world.SetActive(true);
+        }
+        gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
+    }
+
 }
