@@ -9,16 +9,21 @@ public class Health : MonoBehaviour
     public int current_health;
     public bool state; //true = invulnerable state, false = vulnerable state
     public float invulnerability_cd;
-
     public Image[] hearts;
+    public GameObject game_over;
+
+    private void Start()
+    {
+        game_over.SetActive(false);
+    }
 
     public void TakeDamage()
     {
-        if(current_health == 1)
+        if(current_health <= 1)
         {
             current_health--;
-            //display game over
-            //
+            hearts[current_health].enabled = false;
+            game_over.SetActive(true); //display game over
         }
         else
         {

@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Health
   - Machine Parts
+  - Exit
   layers:
   - Default
   - TransparentFX

@@ -7,8 +7,9 @@ public class Collectables : MonoBehaviour
 {
     //this script contains interactions for all collectables EXCEPT for health pick ups
 
-    public int machine_parts;
-    public int total_machine_parts;
+    public int machine_parts; //parts player has collected
+    public int total_machine_parts; //total machine parts in the level
+    public int required_machine_parts; //required machine parts to advance to the next level
     public Image[] mparts;
 
     private void Start()
@@ -29,6 +30,7 @@ public class Collectables : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("hillow");
         if(collision.gameObject.tag == "Machine Parts")
         {
             PickUp(collision.gameObject);
