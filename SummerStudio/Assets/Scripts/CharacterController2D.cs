@@ -141,24 +141,25 @@ public class CharacterController2D : MonoBehaviour
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce)); //adds y velocity of jump
 		}
 
-
-		if (move != 0 && m_Grounded) {
-			animator.SetBool("Running", true);
+		if (animator != null) {
+			if (move != 0 && m_Grounded) {
+				animator.SetBool("Running", true);
+				}
+			else {
+				animator.SetBool("Running", false);
 			}
-		else {
-			animator.SetBool("Running", false);
-		}
-		if (m_Grounded) {
-			animator.SetBool("Grounded", true);
-		}
-		else {
-			animator.SetBool("Grounded", false);
-		}
-		if (m_Rigidbody2D.velocity.y > 0 && !m_Grounded) {
-			animator.SetBool("Jumping", true);
-		}
-		else {
-			animator.SetBool("Jumping", false);
+			if (m_Grounded) {
+				animator.SetBool("Grounded", true);
+			}
+			else {
+				animator.SetBool("Grounded", false);
+			}
+			if (m_Rigidbody2D.velocity.y > 0 && !m_Grounded) {
+				animator.SetBool("Jumping", true);
+			}
+			else {
+				animator.SetBool("Jumping", false);
+			}
 		}
 	}
 
