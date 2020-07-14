@@ -1808,7 +1808,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   w_Type: 1
-  world_opacity: 0.1
+  physical_world: {fileID: 786519718}
+  kenos_world: {fileID: 1784807793}
+  PostProcessVolume: {fileID: 1685974012}
+  gameManager: {fileID: 848503997}
   physical_platforms:
   - {fileID: 413557255}
   - {fileID: 1084349835}
@@ -1821,12 +1824,8 @@ MonoBehaviour:
   - {fileID: 484558074}
   - {fileID: 1372265471}
   - {fileID: 4982546}
-  shift_type: 0
-  physical_world: {fileID: 786519718}
-  kenos_world: {fileID: 1784807793}
-  PostProcessVolume: {fileID: 1685974012}
-  gameManager: {fileID: 848503997}
-  hideOtherWorld: 1
+  hideOtherWorld: 0
+  world_opacity: 0.1
 --- !u!114 &915327710
 MonoBehaviour:
   m_ObjectHideFlags: 0
