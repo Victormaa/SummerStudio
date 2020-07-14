@@ -8,6 +8,7 @@ public class WorldShift : MonoBehaviour
 {
     public bool w_Type = true; //true = physical world; false = kenos world
     private bool ignore_Layer = true;
+    public CharacterController2D playerController;
     public GameObject physical_world;
     public GameObject kenos_world;
     public GameObject PostProcessVolume;
@@ -121,6 +122,8 @@ public class WorldShift : MonoBehaviour
                     kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
+            playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<11);
+            playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<10);
         }
         else
         {
@@ -150,6 +153,8 @@ public class WorldShift : MonoBehaviour
                     kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
+            playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<11);
+            playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<10);
         }
     }
 }
