@@ -21,6 +21,20 @@ public class WorldShift : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Transform[] physical_transforms = physical_world.GetComponentsInChildren<Transform>();
+        Transform[] kenos_transforms = kenos_world.GetComponentsInChildren<Transform>();
+        physical_platforms = new GameObject[physical_transforms.Length];
+        kenos_platforms = new GameObject[kenos_transforms.Length];
+        int value = 0;
+        foreach(Transform trans in physical_transforms) {
+            value++;
+            physical_platforms.SetValue (trans.gameObject, value - 1);
+        }
+        value = 0;
+        foreach(Transform trans in kenos_transforms) {
+            value++;
+            kenos_platforms.SetValue (trans.gameObject, value - 1);
+        }
         if(hideOtherWorld)
         {
             ShowHideWorld(w_Type);
@@ -49,6 +63,7 @@ public class WorldShift : MonoBehaviour
             {
                 SetWorldTransparency(w_Type);
             }
+            gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
         }
 
         if(w_Type == true)
@@ -74,8 +89,6 @@ public class WorldShift : MonoBehaviour
             physical_world.SetActive(false);
             kenos_world.SetActive(true);
         }
-        gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
-
     }
 
     void SetWorldTransparency(bool world_state)
@@ -84,33 +97,59 @@ public class WorldShift : MonoBehaviour
         {
             foreach (GameObject physical_platform in physical_platforms)
             {
-                Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
-                tmp.a = 1f;
-                physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                if (physical_platform.GetComponent<SpriteRenderer>() != null) {
+                    Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                    tmp.a = 1f;
+                    physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                }
+                else if (physical_platform.GetComponent<SpriteShapeRenderer>() != null) {
+                    Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    tmp.a = 1f;
+                    physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                }
             }
             foreach (GameObject kenos_platform in kenos_platforms)
             {
-                Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
-                tmp.a = world_opacity;
-                kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
+                    Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    tmp.a = world_opacity;
+                    kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                }
+                else if (kenos_platform.GetComponent<SpriteShapeRenderer>() != null) {
+                    Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    tmp.a = world_opacity;
+                    kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                }
             }
         }
         else
         {
             foreach (GameObject physical_platform in physical_platforms)
             {
-                Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
-                tmp.a = world_opacity;
-                physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                if (physical_platform.GetComponent<SpriteRenderer>() != null) {
+                    Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                    tmp.a = world_opacity;
+                    physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                }
+                else if (physical_platform.GetComponent<SpriteShapeRenderer>() != null) {
+                    Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    tmp.a = world_opacity;
+                    physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                }
             }
             foreach (GameObject kenos_platform in kenos_platforms)
             {
-                Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
-                tmp.a = 1f;
-                kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
+                    Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    tmp.a = 1f;
+                    kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                }
+                else if (kenos_platform.GetComponent<SpriteShapeRenderer>() != null) {
+                    Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    tmp.a = 1f;
+                    kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                }
             }
         }
-        gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
     }
-
 }
