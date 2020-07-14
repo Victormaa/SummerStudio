@@ -13,19 +13,19 @@ public class WorldShift : MonoBehaviour
     public GameObject PostProcessVolume;
     public GameObject gameManager;
     [SerializeField] private bool hideOtherWorld = true;
-
-    private Color solidColor = new Color(1f, 1f, 1f, 1f);
-    private Color transColor = new Color(1f, 1f, 1f, 0.5f);
-    // SpriteShapeRenderer[] physicalPlatforms;
-    // SpriteShapeRenderer[] kenosPlatforms;
+    
+    private Color solidColor = new Color(255, 255, 255, 255);
+    private Color transColor = new Color(255, 255, 255, 128);
+    Renderer[] physicalPlatforms;
+    Renderer[] kenosPlatforms;
 
     // Start is called before the first frame update
     void Start()
     {
         ToggleWorldVisibility(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
-        // physicalPlatforms = physical_world.GetComponentsInChildren<SpriteShapeRenderer>();
-        // kenosPlatforms = kenos_world.GetComponentsInChildren<SpriteShapeRenderer>();
+        physicalPlatforms = physical_world.GetComponentsInChildren<Renderer>();
+        kenosPlatforms = kenos_world.GetComponentsInChildren<Renderer>();
     }
 
     // Update is called once per frame
@@ -68,25 +68,21 @@ public class WorldShift : MonoBehaviour
         else {
             if(world_state)
             {
-                // foreach(UnityEngine.U2D.SpriteShapeRenderer platform in physicalPlatforms) {
-                //     platform.color = solidColor;
-                // }
-                // foreach(UnityEngine.U2D.SpriteShapeRenderer platform in kenosPlatforms) {
-                //     platform.color = transColor;
-                // }
-                // physical_world.SetActive(true);
-                // kenos_world.SetActive(false);
+                foreach(Renderer platform in physicalPlatforms) {
+                    platform.material.color = solidColor;
+                }
+                foreach(Renderer platform in kenosPlatforms) {
+                    platform.material.color = transColor;
+                }
             }
             else
             {
-                // foreach(UnityEngine.U2D.SpriteShapeRenderer platform in physicalPlatforms) {
-                //     platform.color = transColor;
-                // }
-                // foreach(UnityEngine.U2D.SpriteShapeRenderer platform in kenosPlatforms) {
-                //     platform.color = solidColor;
-                // }
-                // physical_world.SetActive(false);
-                // kenos_world.SetActive(true);
+                foreach(Renderer platform in physicalPlatforms) {
+                    platform.material.color = transColor;
+                }
+                foreach(Renderer platform in kenosPlatforms) {
+                    platform.material.color = solidColor;
+                }
             }
         }
     }
