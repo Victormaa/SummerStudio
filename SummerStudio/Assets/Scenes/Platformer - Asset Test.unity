@@ -833,7 +833,7 @@ GameObject:
   - component: {fileID: 529291431}
   - component: {fileID: 529291430}
   - component: {fileID: 529291429}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlatformKenos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1766,9 +1766,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   w_Type: 1
   physical_world: {fileID: 786519718}
+  platformTEST: {fileID: 1073233387}
   kenos_world: {fileID: 1784807793}
   PostProcessVolume: {fileID: 1685974012}
   gameManager: {fileID: 848503997}
+  hideOtherWorld: 0
 --- !u!114 &915327710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2208,7 +2210,7 @@ SpriteShapeRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dc7fa26a731451440b5c9b5bf0590025, type: 2}
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
