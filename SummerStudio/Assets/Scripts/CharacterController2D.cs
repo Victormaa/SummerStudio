@@ -23,6 +23,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 	private float timeLeftPlatform;	//Time that the player was last on a platform.
+    private bool is_colliding = false; //set to true when experiencing consistent collision
 
 	[Header("Events")]
 	[Space]
@@ -160,11 +161,23 @@ public class CharacterController2D : MonoBehaviour
 		else {
 			animator.SetBool("Jumping", false);
 		}
+
 	}
 
 	public bool IsGrounded() {
 		return m_Grounded;
 	}
+
+    public bool IsStuck()
+    {
+        //return Time.time - timeLeftPlatform;
+        if (Time.time - timeLeftPlatform >= 3.00f && is_colliding)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 
 	private void Flip()
 	{
@@ -176,4 +189,9 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        is_colliding = !is_colliding;
+    }
 }

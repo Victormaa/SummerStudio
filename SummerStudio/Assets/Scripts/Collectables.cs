@@ -30,7 +30,6 @@ public class Collectables : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("hillow");
         if(collision.gameObject.tag == "Machine Parts")
         {
             PickUp(collision.gameObject);
