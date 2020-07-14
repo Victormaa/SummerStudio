@@ -40,16 +40,17 @@ public class Movement : MonoBehaviour
 
         if (Input.GetButtonDown("Crouch"))
             crouch = true;
-            
-
-            
 
         if (Input.GetButtonUp("Crouch"))
             crouch = false;
 
         if (Input.GetButtonDown("Jump"))
             jump = true;
-            
+
+        if(this.GetComponent<CharacterController2D>().IsStuck())
+        {
+            this.gameObject.transform.SetY(0.15f);
+        }
     }
 
     private void FixedUpdate()
@@ -61,5 +62,21 @@ public class Movement : MonoBehaviour
     public void onCrouch(bool crouch)
     {
         Debug.Log(crouch);
+    }
+}
+
+public static class TransformExtentions
+{
+    public static void SetX(this Transform transform, float x)
+    {
+        transform.position = new Vector3(x, transform.position.y, transform.position.z);
+    }
+    public static void SetY(this Transform transform, float y)
+    {
+        transform.position = new Vector3(transform.position.x, y, transform.position.z);
+    }
+    public static void SetZ(this Transform transform, float z)
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 }

@@ -12,20 +12,24 @@ public class WorldShift : MonoBehaviour
     public GameObject kenos_world;
     public GameObject PostProcessVolume;
     public GameObject gameManager;
+    public GameObject[] physical_platforms;
+    public GameObject[] kenos_platforms;
     [SerializeField] private bool hideOtherWorld = true;
+    [SerializeField] [Range(0, 1)] private float world_opacity;
     
-    private Color solidColor = new Color(255, 255, 255, 255);
-    private Color transColor = new Color(255, 255, 255, 128);
-    Renderer[] physicalPlatforms;
-    Renderer[] kenosPlatforms;
 
     // Start is called before the first frame update
     void Start()
     {
-        ToggleWorldVisibility(w_Type);
+        if(hideOtherWorld)
+        {
+            ShowHideWorld(w_Type);
+        }
+        else
+        {
+            SetWorldTransparency(w_Type);
+        }
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
-        physicalPlatforms = physical_world.GetComponentsInChildren<Renderer>();
-        kenosPlatforms = kenos_world.GetComponentsInChildren<Renderer>();
     }
 
     // Update is called once per frame
@@ -37,7 +41,14 @@ public class WorldShift : MonoBehaviour
             Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
             Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
             ignore_Layer = !ignore_Layer; //toggle ignore field
-            ToggleWorldVisibilityWithSlowdown(w_Type);
+            if(hideOtherWorld)
+            {
+                ShowHideWorld(w_Type);
+            }
+            else
+            {
+                SetWorldTransparency(w_Type);
+            }
         }
 
         if(w_Type == true)
@@ -51,45 +62,54 @@ public class WorldShift : MonoBehaviour
         }
     }
 
-    void ToggleWorldVisibility(bool world_state)
+    void ShowHideWorld(bool world_state)
     {
-        if (hideOtherWorld) {
-            if(world_state)
-            {
-                physical_world.SetActive(true);
-                kenos_world.SetActive(false);
-            }
-            else
-            {
-                physical_world.SetActive(false);
-                kenos_world.SetActive(true);
-            }
+        if(world_state)
+        {
+            physical_world.SetActive(true);
+            kenos_world.SetActive(false);
         }
-        else {
-            if(world_state)
-            {
-                foreach(Renderer platform in physicalPlatforms) {
-                    platform.material.color = solidColor;
-                }
-                foreach(Renderer platform in kenosPlatforms) {
-                    platform.material.color = transColor;
-                }
-            }
-            else
-            {
-                foreach(Renderer platform in physicalPlatforms) {
-                    platform.material.color = transColor;
-                }
-                foreach(Renderer platform in kenosPlatforms) {
-                    platform.material.color = solidColor;
-                }
-            }
+        else
+        {
+            physical_world.SetActive(false);
+            kenos_world.SetActive(true);
         }
+        gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
+
     }
 
-    void ToggleWorldVisibilityWithSlowdown(bool world_state)
+    void SetWorldTransparency(bool world_state)
     {
-        ToggleWorldVisibility(world_state);
+        if(world_state)
+        {
+            foreach (GameObject physical_platform in physical_platforms)
+            {
+                Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                tmp.a = 1f;
+                physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+            }
+            foreach (GameObject kenos_platform in kenos_platforms)
+            {
+                Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                tmp.a = world_opacity;
+                kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+            }
+        }
+        else
+        {
+            foreach (GameObject physical_platform in physical_platforms)
+            {
+                Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                tmp.a = world_opacity;
+                physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+            }
+            foreach (GameObject kenos_platform in kenos_platforms)
+            {
+                Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                tmp.a = 1f;
+                kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+            }
+        }
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
     }
 
