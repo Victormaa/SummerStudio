@@ -15,8 +15,8 @@ public class WorldShift : MonoBehaviour
     public GameObject gameManager;
     public GameObject[] physical_platforms;
     public GameObject[] kenos_platforms;
-    [SerializeField] private bool hideOtherWorld = true;
-    [SerializeField] [Range(0, 1)] private float world_opacity;
+    [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
+    [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     
 
     // Start is called before the first frame update
@@ -36,14 +36,7 @@ public class WorldShift : MonoBehaviour
             value++;
             kenos_platforms.SetValue (trans.gameObject, value - 1);
         }
-        if(hideOtherWorld)
-        {
-            ShowHideWorld(w_Type);
-        }
-        else
-        {
-            SetWorldTransparency(w_Type);
-        }
+        SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
     }
 
@@ -56,14 +49,7 @@ public class WorldShift : MonoBehaviour
             Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
             Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
             ignore_Layer = !ignore_Layer; //toggle ignore field
-            if(hideOtherWorld)
-            {
-                ShowHideWorld(w_Type);
-            }
-            else
-            {
-                SetWorldTransparency(w_Type);
-            }
+            SetWorldTransparency(w_Type);
             gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
         }
 
@@ -94,9 +80,9 @@ public class WorldShift : MonoBehaviour
 
     void SetWorldTransparency(bool world_state)
     {
-        if(world_state)
+        if(world_state) //if shifting to phyical world
         {
-            foreach (GameObject physical_platform in physical_platforms)
+            foreach (GameObject physical_platform in physical_platforms) //set all physical objects to full opacity
             {
                 if (physical_platform.GetComponent<SpriteRenderer>() != null) {
                     Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
@@ -109,38 +95,47 @@ public class WorldShift : MonoBehaviour
                     physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
-            foreach (GameObject kenos_platform in kenos_platforms)
+            if (playerController != null) {
+                playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<10); //add physical world to ground check
+            }
+            foreach (GameObject kenos_platform in kenos_platforms)  //set all kenos objects to partial opacity
             {
                 if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
                     Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = world_opacity;
+                    tmp.a = kenos_world_opacity;
                     kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (kenos_platform.GetComponent<SpriteShapeRenderer>() != null) {
                     Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = world_opacity;
+                    tmp.a = kenos_world_opacity;
                     kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
-            playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<11);
-            playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<10);
+            if (playerController != null) {
+                playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<11); //remove kenos objects from ground check
+            }
         }
-        else
+
+        else //if shifting to kenos world
         {
-            foreach (GameObject physical_platform in physical_platforms)
+            foreach (GameObject physical_platform in physical_platforms) //set all physical objects to partial opacity
             {
                 if (physical_platform.GetComponent<SpriteRenderer>() != null) {
                     Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = world_opacity;
+                    tmp.a = phys_world_opacity;
                     physical_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (physical_platform.GetComponent<SpriteShapeRenderer>() != null) {
                     Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = world_opacity;
+                    tmp.a = phys_world_opacity;
                     physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
-            foreach (GameObject kenos_platform in kenos_platforms)
+            if (playerController != null) {
+                playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<10); //remove physical objects from ground check
+            }
+
+            foreach (GameObject kenos_platform in kenos_platforms) //set all kenos objects to full opacity
             {
                 if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
                     Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
@@ -153,8 +148,9 @@ public class WorldShift : MonoBehaviour
                     kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
-            playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<11);
-            playerController.m_WhatIsGround = playerController.m_WhatIsGround & ~(1<<10);
+            if (playerController != null) {
+                playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<11); //add kenos world to ground check
+            }
         }
     }
 }

@@ -5216,6 +5216,16 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 915327711}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: hideKenosWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: phys_world_opacity
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5029346234971668197, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: m_JumpForce

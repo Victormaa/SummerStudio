@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5029346234971668193}
   - component: {fileID: 5029346234971668190}
   m_Layer: 8
-  m_Name: Role
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b948fe8e68b17f647abd25e5670e4034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 460
+  m_JumpForce: 450
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.1
   m_AirControl: 1
@@ -120,11 +120,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   w_Type: 1
+  playerController: {fileID: 0}
   physical_world: {fileID: 0}
   kenos_world: {fileID: 0}
   PostProcessVolume: {fileID: 0}
   gameManager: {fileID: 0}
+  physical_platforms: []
+  kenos_platforms: []
   hideOtherWorld: 0
+  world_opacity: 0
 --- !u!114 &5029346234971668192
 MonoBehaviour:
   m_ObjectHideFlags: 0
