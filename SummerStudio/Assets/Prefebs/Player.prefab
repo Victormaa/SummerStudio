@@ -120,15 +120,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   w_Type: 1
-  playerController: {fileID: 0}
+  playerController: {fileID: 5029346234971668197}
   physical_world: {fileID: 0}
   kenos_world: {fileID: 0}
   PostProcessVolume: {fileID: 0}
   gameManager: {fileID: 0}
   physical_platforms: []
   kenos_platforms: []
-  hideOtherWorld: 0
-  world_opacity: 0
+  phys_world_opacity: 0.3
+  kenos_world_opacity: 0
 --- !u!114 &5029346234971668192
 MonoBehaviour:
   m_ObjectHideFlags: 0
