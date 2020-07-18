@@ -17,7 +17,8 @@ public class WorldShift : MonoBehaviour
     public GameObject[] kenos_platforms;
     [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
-    
+    [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
+    [SerializeField] [Range(0,0.5f)] private float worldshiftTransitionDuration = 0.05f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +51,7 @@ public class WorldShift : MonoBehaviour
             Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
             ignore_Layer = !ignore_Layer; //toggle ignore field
             SetWorldTransparency(w_Type);
-            gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(0.2f);
+            gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
         }
 
         if(w_Type == true)
@@ -85,14 +86,18 @@ public class WorldShift : MonoBehaviour
             foreach (GameObject physical_platform in physical_platforms) //set all physical objects to full opacity
             {
                 if (physical_platform.GetComponent<SpriteRenderer>() != null) {
-                    Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = 1f;
-                    physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                    Color currentOpacity = physical_platform.GetComponent<SpriteRenderer>().color;
+                    StartCoroutine(ChangeSpriteOpacity(physical_platform, currentOpacity.a, 1f, worldshiftTransitionDuration));
+                    // Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                    // tmp.a = 1f;
+                    // physical_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (physical_platform.GetComponent<SpriteShapeRenderer>() != null) {
-                    Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = 1f;
-                    physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                    Color currentOpacity = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    StartCoroutine(ChangeSpriteShapeOpacity(physical_platform, currentOpacity.a, 1f, worldshiftTransitionDuration));
+                    // Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    // tmp.a = 1f;
+                    // physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
             if (playerController != null) {
@@ -101,14 +106,18 @@ public class WorldShift : MonoBehaviour
             foreach (GameObject kenos_platform in kenos_platforms)  //set all kenos objects to partial opacity
             {
                 if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
-                    Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = kenos_world_opacity;
-                    kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                    Color currentOpacity = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    StartCoroutine(ChangeSpriteOpacity(kenos_platform, currentOpacity.a, kenos_world_opacity, worldshiftTransitionDuration));
+                    // Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    // tmp.a = kenos_world_opacity;
+                    // kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (kenos_platform.GetComponent<SpriteShapeRenderer>() != null) {
-                    Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = kenos_world_opacity;
-                    kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                    Color currentOpacity = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    StartCoroutine(ChangeSpriteShapeOpacity(kenos_platform, currentOpacity.a, kenos_world_opacity, worldshiftTransitionDuration));
+                    // Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    // tmp.a = kenos_world_opacity;
+                    // kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
             if (playerController != null) {
@@ -121,14 +130,18 @@ public class WorldShift : MonoBehaviour
             foreach (GameObject physical_platform in physical_platforms) //set all physical objects to partial opacity
             {
                 if (physical_platform.GetComponent<SpriteRenderer>() != null) {
-                    Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = phys_world_opacity;
-                    physical_platform.GetComponent<SpriteRenderer>().color = tmp;
+                    Color currentOpacity = physical_platform.GetComponent<SpriteRenderer>().color;
+                    StartCoroutine(ChangeSpriteOpacity(physical_platform, currentOpacity.a, phys_world_opacity, worldshiftTransitionDuration));
+                    // Color tmp = physical_platform.GetComponent<SpriteRenderer>().color;
+                    // tmp.a = phys_world_opacity;
+                    // physical_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (physical_platform.GetComponent<SpriteShapeRenderer>() != null) {
-                    Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = phys_world_opacity;
-                    physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                    Color currentOpacity = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    StartCoroutine(ChangeSpriteShapeOpacity(physical_platform, currentOpacity.a, phys_world_opacity, worldshiftTransitionDuration));
+                    // Color tmp = physical_platform.GetComponent<SpriteShapeRenderer>().color;
+                    // tmp.a = phys_world_opacity;
+                    // physical_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
             if (playerController != null) {
@@ -138,19 +151,50 @@ public class WorldShift : MonoBehaviour
             foreach (GameObject kenos_platform in kenos_platforms) //set all kenos objects to full opacity
             {
                 if (kenos_platform.GetComponent<SpriteRenderer>() != null) {
-                    Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
-                    tmp.a = 1f;
-                    kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
+                    Color currentOpacity = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    StartCoroutine(ChangeSpriteOpacity(kenos_platform, currentOpacity.a, 1f, worldshiftTransitionDuration));
+                    // Color tmp = kenos_platform.GetComponent<SpriteRenderer>().color;
+                    // tmp.a = 1f;
+                    // kenos_platform.GetComponent<SpriteRenderer>().color = tmp;
                 }
                 else if (kenos_platform.GetComponent<SpriteShapeRenderer>() != null) {
-                    Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
-                    tmp.a = 1f;
-                    kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
+                    Color currentOpacity = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    StartCoroutine(ChangeSpriteShapeOpacity(kenos_platform, currentOpacity.a, 1f, worldshiftTransitionDuration));
+                    // Color tmp = kenos_platform.GetComponent<SpriteShapeRenderer>().color;
+                    // tmp.a = 1f;
+                    // kenos_platform.GetComponent<SpriteShapeRenderer>().color = tmp;
                 }
             }
             if (playerController != null) {
                 playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<11); //add kenos world to ground check
             }
         }
+    }
+
+
+    IEnumerator ChangeSpriteOpacity(GameObject gameObject, float opacityStart, float opacityTarget, float duration) {
+        for (float t=0f; t<duration; t+=Time.deltaTime) {
+            float normalizedTime = t/duration;
+            Color tmp = gameObject.GetComponent<SpriteRenderer>().color;
+            tmp.a = Mathf.Lerp(opacityStart, opacityTarget, normalizedTime);
+            gameObject.GetComponent<SpriteRenderer>().color = tmp;
+            yield return null;
+        }
+        Color tmp2 = gameObject.GetComponent<SpriteRenderer>().color;
+        tmp2.a = opacityTarget;
+        gameObject.GetComponent<SpriteRenderer>().color = tmp2;
+    }
+
+    IEnumerator ChangeSpriteShapeOpacity(GameObject gameObject, float opacityStart, float opacityTarget, float duration) {
+        for (float t=0f; t<duration; t+=Time.deltaTime) {
+            float normalizedTime = t/duration;
+            Color tmp = gameObject.GetComponent<SpriteShapeRenderer>().color;
+            tmp.a = Mathf.Lerp(opacityStart, opacityTarget, normalizedTime);
+            gameObject.GetComponent<SpriteShapeRenderer>().color = tmp;
+            yield return null;
+        }
+        Color tmp2 = gameObject.GetComponent<SpriteShapeRenderer>().color;
+        tmp2.a = opacityTarget;
+        gameObject.GetComponent<SpriteShapeRenderer>().color = tmp2;
     }
 }

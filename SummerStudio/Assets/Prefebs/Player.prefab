@@ -83,7 +83,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3639
   m_GroundCheck: {fileID: 5029346236861059382}
-  coyoteTime: 0.2
+  coyoteTime: 0.1
   m_CeilingCheck: {fileID: 5029346236042652338}
   m_CrouchDisableCollider: {fileID: 5029346235459237390}
   animator: {fileID: 5029346235138327580}
@@ -129,6 +129,8 @@ MonoBehaviour:
   kenos_platforms: []
   phys_world_opacity: 0.3
   kenos_world_opacity: 0
+  bulletTimeDuration: 0.15
+  worldshiftTransitionDuration: 0.1
 --- !u!114 &5029346234971668192
 MonoBehaviour:
   m_ObjectHideFlags: 0
