@@ -176,7 +176,7 @@ public class WorldShift : MonoBehaviour
         for (float t=0f; t<duration; t+=Time.deltaTime) {
             float normalizedTime = t/duration;
             Color tmp = gameObject.GetComponent<SpriteRenderer>().color;
-            tmp.a = Mathf.Lerp(opacityStart, opacityTarget, normalizedTime);
+            tmp.a = Mathf.SmoothStep(opacityStart, opacityTarget, normalizedTime);
             gameObject.GetComponent<SpriteRenderer>().color = tmp;
             yield return null;
         }
@@ -189,7 +189,7 @@ public class WorldShift : MonoBehaviour
         for (float t=0f; t<duration; t+=Time.deltaTime) {
             float normalizedTime = t/duration;
             Color tmp = gameObject.GetComponent<SpriteShapeRenderer>().color;
-            tmp.a = Mathf.Lerp(opacityStart, opacityTarget, normalizedTime);
+            tmp.a = Mathf.SmoothStep(opacityStart, opacityTarget, normalizedTime);
             gameObject.GetComponent<SpriteShapeRenderer>().color = tmp;
             yield return null;
         }
