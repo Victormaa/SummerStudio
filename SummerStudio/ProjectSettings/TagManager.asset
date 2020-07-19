@@ -9,6 +9,8 @@ TagManager:
   - Health
   - Machine Parts
   - Exit
+  - Tutorial Level 2
+  - Tutorial Level 3
   layers:
   - Default
   - TransparentFX
