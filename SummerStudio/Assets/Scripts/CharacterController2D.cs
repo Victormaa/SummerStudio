@@ -9,7 +9,8 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
 	[SerializeField] public LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
-	[Range(0, 1)] [SerializeField] private float coyoteTime = .2f;				// Amount of time after leaving platform that jump still works
+	[Range(0, 1)] [SerializeField] private float coyoteTime = 0.1f;				// Amount of time after leaving platform that jump still works
+	[Range(0, 1)] [SerializeField] private float jumpInputBuffer = 0.1f;		// Amount of time before landing that jump will register input
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
 	
@@ -22,6 +23,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 	private float timeLeftPlatform;	//Time that the player was last on a platform.
+	private float timeJumpPressed; //Time that the player last pressed the jump button.
     private bool is_colliding = false; //set to true when experiencing consistent collision
 
 	[Header("Events")]
@@ -68,6 +70,13 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Move(float move, bool crouch, bool jump)
 	{
+		if (jump && !m_Grounded) {//if in midair and press jump
+			timeJumpPressed = Time.time; //save time to check for jump input buffering
+		}
+		if (m_Grounded && Time.time-timeJumpPressed < jumpInputBuffer) {
+			jump = true;
+		}
+		
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
