@@ -27,7 +27,8 @@ public class Triggers : MonoBehaviour
         }
         if(collision.gameObject.tag == "Tutorial Level 3")
         {
-            lifebar.SetActive(true);
+            //lifebar.SetActive(true);
+            player.GetComponent<Health>().DisplayHealth();
         }
     }
 }

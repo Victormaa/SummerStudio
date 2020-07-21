@@ -15,6 +15,9 @@ public class WorldShift : MonoBehaviour
     public GameObject gameManager;
     public GameObject[] physical_platforms;
     public GameObject[] kenos_platforms;
+    private bool time_start = false;
+    [SerializeField] private float max_time;
+    [SerializeField] private float current_time;
     [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
@@ -43,15 +46,22 @@ public class WorldShift : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+    {   
+        if(time_start == true)
         {
-            w_Type = !w_Type; //toggle world type on each button press
-            Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
-            Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
-            ignore_Layer = !ignore_Layer; //toggle ignore field
-            SetWorldTransparency(w_Type);
-            gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
+            current_time += Time.deltaTime;
+        }
+
+        if (Input.GetMouseButtonDown(0) && w_Type == true)
+        {
+            ExecuteWorldShift();
+            time_start = true;
+        }
+        else if((Input.GetMouseButtonDown(0) && w_Type == false) ||current_time >= max_time)
+        {
+            ExecuteWorldShift();
+            current_time = 0f;
+            time_start = false;
         }
 
         if(w_Type == true)
@@ -77,6 +87,18 @@ public class WorldShift : MonoBehaviour
             physical_world.SetActive(false);
             kenos_world.SetActive(true);
         }
+    }
+
+
+
+    void ExecuteWorldShift()
+    {
+        w_Type = !w_Type; //toggle world type on each button press
+        Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
+        Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
+        ignore_Layer = !ignore_Layer; //toggle ignore field
+        SetWorldTransparency(w_Type);
+        gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
     }
 
     void SetWorldTransparency(bool world_state)

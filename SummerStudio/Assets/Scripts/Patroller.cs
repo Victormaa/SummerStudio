@@ -23,9 +23,9 @@ public class Patroller : MonoBehaviour
     void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, PatrolPoints[currentdestid].position, speed * Time.deltaTime);
-        Debug.Log(PatrolPoints[currentdestid].position);
         if (Vector2.Distance(this.transform.position, PatrolPoints[currentdestid].position) < 0.2f)
         {
+            
             if (currenttime <= 0)
             {
                 currentdestid = (currentdestid + 1) % PatrolPoints.Length;

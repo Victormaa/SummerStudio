@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
@@ -15,6 +16,12 @@ public class Health : MonoBehaviour
     private void Start()
     {
         game_over.SetActive(false);
+
+        if(SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            HideHealth();
+        }
+
     }
 
     public void TakeDamage()
@@ -32,6 +39,22 @@ public class Health : MonoBehaviour
             //play invulnerable anim
             Invoke("ResetState", invulnerability_cd); //disable invulnerability
             hearts[current_health].enabled = false; //hide heart
+        }
+    }
+
+    public void DisplayHealth()
+    {
+        for (int i = 0; i < current_health; i++)
+        {
+            hearts[i].enabled = true;
+        }
+    }
+
+    public void HideHealth()
+    {
+        for (int i = 0; i < max_health; i++)
+        {
+            hearts[i].enabled = false;
         }
     }
 
