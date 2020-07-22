@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1957709079213560960}
   - component: {fileID: 3322922095410957652}
   - component: {fileID: 4730854457614619669}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnableWorldShift
   m_TagString: Tutorial Level 2
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 5303602505615209539}
   - component: {fileID: 5023222622572861037}
   - component: {fileID: 8563758449437754523}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Exit
   m_TagString: Exit
   m_Icon: {fileID: 0}
@@ -167,8 +167,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7640302527559438575}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 208.484, y: 18.917, z: 0}
-  m_LocalScale: {x: 0.076545, y: 1.716, z: 1}
+  m_LocalPosition: {x: 187.94, y: 28.226, z: 0}
+  m_LocalScale: {x: 0.076545, y: 0.8248846, z: 1}
   m_Children: []
   m_Father: {fileID: 5768919058661896858}
   m_RootOrder: 2
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 4013591961215078071}
   - component: {fileID: 9121562825324810267}
   - component: {fileID: 6604435014404866871}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnableLifeBar
   m_TagString: Tutorial Level 2
   m_Icon: {fileID: 0}
