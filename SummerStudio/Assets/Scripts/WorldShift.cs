@@ -17,13 +17,17 @@ public class WorldShift : MonoBehaviour
     public GameObject[] kenos_platforms;
     private AudioSource[] tracks;
     private bool time_start = false;
+    private bool shift_cooldown_start = false; //new  field
     [SerializeField] private float max_time;
     [SerializeField] private float current_time;
+    [SerializeField] private float current_cooldown_time; //new field
+    [SerializeField] [Range(0,3)] private float shiftBufferTime; //new field
     [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
     [SerializeField] [Range(0,0.5f)] private float worldshiftTransitionDuration = 0.05f;
     [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
+    [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
     public float musicVolume = 1f;
 
     // Start is called before the first frame update
@@ -66,17 +70,33 @@ public class WorldShift : MonoBehaviour
         {
             current_time += Time.deltaTime;
         }
+        //new code
+        if(shift_cooldown_start == true)
+        {
+            current_cooldown_time += Time.deltaTime;
+        }
 
-        if (Input.GetMouseButtonDown(0) && w_Type == true)
+        if(Input.GetMouseButtonDown(0))
+        {
+            shift_cooldown_start = true;
+        }
+
+        //end new code
+
+        if (Input.GetMouseButtonDown(0) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
         {
             ExecuteWorldShift();
             time_start = true;
+            shift_cooldown_start = false;
+            current_cooldown_time = 0f;
         }
-        else if((Input.GetMouseButtonDown(0) && w_Type == false) ||current_time >= max_time)
+        //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
+        else if ((Input.GetMouseButtonDown(0) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
         {
             ExecuteWorldShift();
             current_time = 0f;
             time_start = false;
+            shift_cooldown_start = true; //new line
         }
 
         if(w_Type == true)

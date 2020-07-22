@@ -2542,6 +2542,26 @@ PrefabInstance:
       propertyPath: kenos_bgm
       value: 
       objectReference: {fileID: 8300000, guid: c0872ee765f97b9448c3f8d129796fc5, type: 3}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: shiftCooldownTimer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: shiftBufferTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: shiftCooldownTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: current_cooldown_time
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5029346234971668197, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: m_JumpForce
