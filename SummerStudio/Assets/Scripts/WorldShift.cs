@@ -120,16 +120,12 @@ public class WorldShift : MonoBehaviour
             float startingKenosVolume = tracks[1].volume;
             StartCoroutine(ChangeGameVolume(0,startingPhysVolume,musicVolume,musicChangeDuration));
             StartCoroutine(ChangeGameVolume(1,startingKenosVolume,0f,musicChangeDuration));
-            // tracks[0].volume = 1;
-            // tracks[1].volume = 0;
         } else
         {
             float startingPhysVolume = tracks[0].volume;
             float startingKenosVolume = tracks[1].volume;
             StartCoroutine(ChangeGameVolume(0,startingPhysVolume,0f,musicChangeDuration));
             StartCoroutine(ChangeGameVolume(1,startingKenosVolume,musicVolume,musicChangeDuration));
-            // tracks[0].volume = 0;
-            // tracks[1].volume = 1;
         }
     }
 
@@ -255,7 +251,10 @@ public class WorldShift : MonoBehaviour
     IEnumerator ChangeGameVolume(int trackNumber, float startingVolume, float targetVolume, float duration) {
         float v = startingVolume;
         float t = 0f;
-        if (startingVolume<targetVolume) {
+        if (duration<=0) {
+            tracks[trackNumber].volume = targetVolume;
+        }
+        else if (startingVolume<targetVolume) {
             while (v<targetVolume && t<duration) {
                 v += (float) (musicVolume * t/duration);
                 t+=Time.deltaTime;
