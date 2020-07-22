@@ -15,6 +15,7 @@ public class WorldShift : MonoBehaviour
     public GameObject gameManager;
     public GameObject[] physical_platforms;
     public GameObject[] kenos_platforms;
+    private AudioSource[] tracks;
     private bool time_start = false;
     [SerializeField] private float max_time;
     [SerializeField] private float current_time;
@@ -22,6 +23,8 @@ public class WorldShift : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
     [SerializeField] [Range(0,0.5f)] private float worldshiftTransitionDuration = 0.05f;
+    [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
+    public float musicVolume = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,18 @@ public class WorldShift : MonoBehaviour
         }
         SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
+
+        tracks = this.gameObject.GetComponents<AudioSource>();
+        //tracks[0].clip = physical_bgm;
+        tracks[0].volume = 1;
+        //tracks[0].loop = true;
+
+        //tracks[1].clip = kenos_bgm;
+        tracks[1].volume = 0;
+        //tracks[1].loop = true;
+
+        //tracks[0].Play();
+        //tracks[1].Play();
     }
 
     // Update is called once per frame
@@ -99,6 +114,19 @@ public class WorldShift : MonoBehaviour
         ignore_Layer = !ignore_Layer; //toggle ignore field
         SetWorldTransparency(w_Type);
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
+        if (w_Type)
+        {
+            float startingPhysVolume = tracks[0].volume;
+            float startingKenosVolume = tracks[1].volume;
+            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,musicVolume,musicChangeDuration));
+            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,0f,musicChangeDuration));
+        } else
+        {
+            float startingPhysVolume = tracks[0].volume;
+            float startingKenosVolume = tracks[1].volume;
+            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,0f,musicChangeDuration));
+            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,musicVolume,musicChangeDuration));
+        }
     }
 
     void SetWorldTransparency(bool world_state)
@@ -218,5 +246,37 @@ public class WorldShift : MonoBehaviour
         Color tmp2 = gameObject.GetComponent<SpriteShapeRenderer>().color;
         tmp2.a = opacityTarget;
         gameObject.GetComponent<SpriteShapeRenderer>().color = tmp2;
+    }
+
+    IEnumerator ChangeGameVolume(int trackNumber, float startingVolume, float targetVolume, float duration) {
+        float v = startingVolume;
+        float t = 0f;
+        if (duration<=0) {
+            tracks[trackNumber].volume = targetVolume;
+        }
+        else if (startingVolume<targetVolume) {
+            while (v<targetVolume && t<duration) {
+                v += (float) (musicVolume * t/duration);
+                t+=Time.deltaTime;
+                if (v>targetVolume) {
+                    v= targetVolume;
+                }
+                tracks[trackNumber].volume = v;
+                // Debug.Log("increasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+                yield return null;
+            }
+        }
+        else {
+            while (v>targetVolume && t<duration) {
+                v -= (float) (musicVolume * t/duration);
+                t+=Time.deltaTime;
+                if (v<targetVolume) {
+                    v= targetVolume;
+                }
+                tracks[trackNumber].volume = v;
+                // Debug.Log("decreasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+                yield return null;
+            }
+        }
     }
 }
