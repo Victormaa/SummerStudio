@@ -15,6 +15,7 @@ public class WorldShift : MonoBehaviour
     public GameObject gameManager;
     public GameObject[] physical_platforms;
     public GameObject[] kenos_platforms;
+    private AudioSource[] tracks;
     private bool time_start = false;
     [SerializeField] private float max_time;
     [SerializeField] private float current_time;
@@ -42,6 +43,18 @@ public class WorldShift : MonoBehaviour
         }
         SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
+
+        tracks = this.gameObject.GetComponents<AudioSource>();
+        //tracks[0].clip = physical_bgm;
+        tracks[0].volume = 1;
+        //tracks[0].loop = true;
+
+        //tracks[1].clip = kenos_bgm;
+        tracks[1].volume = 0;
+        //tracks[1].loop = true;
+
+        //tracks[0].Play();
+        //tracks[1].Play();
     }
 
     // Update is called once per frame
@@ -99,6 +112,15 @@ public class WorldShift : MonoBehaviour
         ignore_Layer = !ignore_Layer; //toggle ignore field
         SetWorldTransparency(w_Type);
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
+        if (w_Type)
+        {
+            tracks[0].volume = 1;
+            tracks[1].volume = 0;
+        } else
+        {
+            tracks[0].volume = 0;
+            tracks[1].volume = 1;
+        }
     }
 
     void SetWorldTransparency(bool world_state)
