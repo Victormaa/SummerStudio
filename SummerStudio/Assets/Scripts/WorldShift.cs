@@ -23,6 +23,8 @@ public class WorldShift : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
     [SerializeField] [Range(0,0.5f)] private float worldshiftTransitionDuration = 0.05f;
+    [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
+    public float musicVolume = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -114,12 +116,20 @@ public class WorldShift : MonoBehaviour
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
         if (w_Type)
         {
-            tracks[0].volume = 1;
-            tracks[1].volume = 0;
+            float startingPhysVolume = tracks[0].volume;
+            float startingKenosVolume = tracks[1].volume;
+            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,musicVolume,musicChangeDuration));
+            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,0f,musicChangeDuration));
+            // tracks[0].volume = 1;
+            // tracks[1].volume = 0;
         } else
         {
-            tracks[0].volume = 0;
-            tracks[1].volume = 1;
+            float startingPhysVolume = tracks[0].volume;
+            float startingKenosVolume = tracks[1].volume;
+            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,0f,musicChangeDuration));
+            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,musicVolume,musicChangeDuration));
+            // tracks[0].volume = 0;
+            // tracks[1].volume = 1;
         }
     }
 
@@ -240,5 +250,34 @@ public class WorldShift : MonoBehaviour
         Color tmp2 = gameObject.GetComponent<SpriteShapeRenderer>().color;
         tmp2.a = opacityTarget;
         gameObject.GetComponent<SpriteShapeRenderer>().color = tmp2;
+    }
+
+    IEnumerator ChangeGameVolume(int trackNumber, float startingVolume, float targetVolume, float duration) {
+        float v = startingVolume;
+        float t = 0f;
+        if (startingVolume<targetVolume) {
+            while (v<targetVolume && t<duration) {
+                v += (float) (musicVolume * t/duration);
+                t+=Time.deltaTime;
+                if (v>targetVolume) {
+                    v= targetVolume;
+                }
+                tracks[trackNumber].volume = v;
+                // Debug.Log("increasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+                yield return null;
+            }
+        }
+        else {
+            while (v>targetVolume && t<duration) {
+                v -= (float) (musicVolume * t/duration);
+                t+=Time.deltaTime;
+                if (v<targetVolume) {
+                    v= targetVolume;
+                }
+                tracks[trackNumber].volume = v;
+                // Debug.Log("decreasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+                yield return null;
+            }
+        }
     }
 }
