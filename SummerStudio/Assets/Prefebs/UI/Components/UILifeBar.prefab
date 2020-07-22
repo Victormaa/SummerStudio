@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3060704252982251505}
   m_Layer: 5
-  m_Name: LifeBar
+  m_Name: UILifeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

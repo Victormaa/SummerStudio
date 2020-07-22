@@ -11,6 +11,8 @@ public class Health : MonoBehaviour
     public bool state; //true = invulnerable state, false = vulnerable state
     public float invulnerability_cd;
     public Image[] hearts;
+    public Image[] broken_hearts;
+    public Image[] bg_hearts;
     public GameObject game_over;
 
     private void Start()
@@ -44,6 +46,12 @@ public class Health : MonoBehaviour
 
     public void DisplayHealth()
     {
+        for (int i = 0; i < max_health; i++)
+        {
+            broken_hearts[i].enabled = true;
+            bg_hearts[i].enabled = true;
+        }
+
         for (int i = 0; i < current_health; i++)
         {
             hearts[i].enabled = true;
@@ -55,6 +63,8 @@ public class Health : MonoBehaviour
         for (int i = 0; i < max_health; i++)
         {
             hearts[i].enabled = false;
+            broken_hearts[i].enabled = false;
+            bg_hearts[i].enabled = false;
         }
     }
 

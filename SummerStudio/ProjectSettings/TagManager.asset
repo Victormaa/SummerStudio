@@ -11,6 +11,7 @@ TagManager:
   - Exit
   - Tutorial Level 2
   - Tutorial Level 3
+  - Tutorial Level 4
   layers:
   - Default
   - TransparentFX
