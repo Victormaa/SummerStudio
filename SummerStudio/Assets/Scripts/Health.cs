@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     public Image[] broken_hearts;
     public Image[] bg_hearts;
     public GameObject game_over;
+    [SerializeField] private AudioClip healthpackSound;
 
     private void Start()
     {
@@ -72,6 +73,7 @@ public class Health : MonoBehaviour
     {
         current_health++; //add to health
         hearts[current_health - 1].enabled = true; //show heart
+        // AudioSource.PlayClipAtPoint(healthpackSound, transform.position);
         Destroy(obj);
     }
 

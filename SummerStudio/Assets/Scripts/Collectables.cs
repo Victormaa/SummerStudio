@@ -10,6 +10,7 @@ public class Collectables : MonoBehaviour
     public int machine_parts; //parts player has collected
     public int total_machine_parts; //total machine parts in the level
     public int required_machine_parts; //required machine parts to advance to the next level
+    [SerializeField] private AudioClip collectSound;
     public Image[] mparts;
     public Image[] mparts_outline;
     public Image[] mparts_shadow;
@@ -29,7 +30,8 @@ public class Collectables : MonoBehaviour
     public void PickUp(GameObject obj)
     {
         machine_parts++;
-        Destroy(obj);
+        // AudioSource.PlayClipAtPoint(collectSound, transform.position);
+        obj.SetActive(false);
     }
 
     public void EnableMachineParts()
