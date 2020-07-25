@@ -568,7 +568,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1acd0b76609a11142ad683433741f1f8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4fc180236b1d60e47bbcbafa8fac1711, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -642,7 +642,7 @@ PrefabInstance:
     - target: {fileID: 4965846765907541445, guid: 212fc2fed75604b49b1649171418b391,
         type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 14.913927
+      value: 23.19758
       objectReference: {fileID: 0}
     - target: {fileID: 4965846765907541445, guid: 212fc2fed75604b49b1649171418b391,
         type: 3}
@@ -1082,7 +1082,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427130884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 35.422, y: 14.1, z: 18.73}
+  m_LocalPosition: {x: 35.147, y: 14.1, z: 18.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1422069521}
@@ -1132,7 +1132,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 24.343882, y: 4.3478174}
+  m_Size: {x: 23.793762, y: 4.3478174}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -3405,6 +3405,11 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.x
       value: 7.2636485
       objectReference: {fileID: 0}
+    - target: {fileID: 4965846765907541445, guid: 212fc2fed75604b49b1649171418b391,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 7.1042156
+      objectReference: {fileID: 0}
     - target: {fileID: 4965846765907541446, guid: 212fc2fed75604b49b1649171418b391,
         type: 3}
       propertyPath: m_Size.x
@@ -3947,7 +3952,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586958206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.178, y: -0.235, z: 18.73}
+  m_LocalPosition: {x: -20.43, y: -0.235, z: 18.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1422069521}
@@ -3997,7 +4002,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 12.802239, y: 7.218341}
+  m_Size: {x: 11.305793, y: 7.218341}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
