@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
     public Image[] bg_hearts;
     public GameObject game_over;
     [SerializeField] private AudioClip healthpackSound;
+    [SerializeField] private AudioClip getHurtSound;
 
     private void Start()
     {
@@ -39,6 +40,9 @@ public class Health : MonoBehaviour
         {
             current_health--; //subtract from health
             state = true; //set invulnerability
+            if (getHurtSound != null) {
+                AudioSource.PlayClipAtPoint(getHurtSound, transform.position);
+            }
             //play invulnerable anim
             Invoke("ResetState", invulnerability_cd); //disable invulnerability
             hearts[current_health].enabled = false; //hide heart
@@ -73,7 +77,9 @@ public class Health : MonoBehaviour
     {
         current_health++; //add to health
         hearts[current_health - 1].enabled = true; //show heart
-        // AudioSource.PlayClipAtPoint(healthpackSound, transform.position);
+        if (healthpackSound != null) {
+            AudioSource.PlayClipAtPoint(healthpackSound, transform.position);
+        }
         Destroy(obj);
     }
 

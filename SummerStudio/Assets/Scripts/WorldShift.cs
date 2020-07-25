@@ -32,6 +32,7 @@ public class WorldShift : MonoBehaviour
     [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
     [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
     public float musicVolume = 1f;
+    [SerializeField] private AudioSource worldShiftSound;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +56,7 @@ public class WorldShift : MonoBehaviour
 
         tracks = this.gameObject.GetComponents<AudioSource>();
         //tracks[0].clip = physical_bgm;
-        tracks[0].volume = 1;
+        tracks[0].volume = musicVolume;
         //tracks[0].loop = true;
 
         //tracks[1].clip = kenos_bgm;
@@ -134,6 +135,9 @@ public class WorldShift : MonoBehaviour
 
     void ExecuteWorldShift()
     {
+        if (worldShiftSound != null) {
+            worldShiftSound.Play();
+        }
         w_Type = !w_Type; //toggle world type on each button press
         Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
         Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer

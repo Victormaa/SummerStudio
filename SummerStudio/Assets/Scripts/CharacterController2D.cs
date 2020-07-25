@@ -13,7 +13,9 @@ public class CharacterController2D : MonoBehaviour
 	[Range(0, 1)] [SerializeField] private float jumpInputBuffer = 0.1f;		// Amount of time before landing that jump will register input
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
-	
+	[SerializeField] private AudioSource physJumpSound;
+    [SerializeField] private AudioSource kenosJumpSound;
+
 	[SerializeField] private Animator animator; //player animator
 
 	const float k_GroundedRadius = .02f; // Radius of the overlap circle to determine if grounded
@@ -147,6 +149,9 @@ public class CharacterController2D : MonoBehaviour
 			vel.y = 0f; //resets y velocity so jump is always same height.
 			m_Rigidbody2D.velocity = vel; //puts snapshot back in with zeroed y velocity
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce)); //adds y velocity of jump
+			if (physJumpSound != null) {
+            	physJumpSound.Play();
+        	}
 		}
 
 		if (animator != null) {

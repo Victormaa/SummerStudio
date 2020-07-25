@@ -1405,7 +1405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &583544539
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5280,11 +5280,21 @@ PrefabInstance:
       propertyPath: current_health
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668192, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: healthpackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 6ed818d4b06d6764fa3774c08f5b3dc5, type: 3}
     - target: {fileID: 5029346234971668193, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: mparts.Array.data[0]
       value: 
       objectReference: {fileID: 252097332}
+    - target: {fileID: 5029346234971668193, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: collectSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 24a043b6b007af2429db66dd72f80a8a, type: 3}
     - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: physical_platforms.Array.size
