@@ -1082,7 +1082,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427130884}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 34.706, y: 14.1, z: 18.73}
+  m_LocalPosition: {x: 35.422, y: 14.1, z: 18.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1422069521}
@@ -1132,7 +1132,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 22.911627, y: 4.3478174}
+  m_Size: {x: 24.343882, y: 4.3478174}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -2118,7 +2118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761298761}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.918, y: -0.247, z: 18.73}
+  m_LocalPosition: {x: 20.245, y: -0.247, z: 18.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1422069521}
@@ -2168,7 +2168,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 19.560955, y: 7.1849723}
+  m_Size: {x: 20.215698, y: 7.1849723}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -3947,7 +3947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586958206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.764, y: -0.235, z: 18.73}
+  m_LocalPosition: {x: -21.178, y: -0.235, z: 18.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1422069521}
@@ -3997,7 +3997,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 10.743778, y: 7.218341}
+  m_Size: {x: 12.802239, y: 7.218341}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -5409,6 +5409,16 @@ PrefabInstance:
         type: 3}
       propertyPath: worldshiftTransitionDuration
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: shiftCooldownTime
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: shiftInputBuffer
+      value: 0.14
       objectReference: {fileID: 0}
     - target: {fileID: 5029346234971668197, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}

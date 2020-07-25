@@ -135,6 +135,7 @@ MonoBehaviour:
   current_time: 0
   current_cooldown_time: 3
   shiftBufferTime: 0
+  shiftInputBuffer: 0.1
   phys_world_opacity: 0.3
   kenos_world_opacity: 0
   bulletTimeDuration: 0.15
@@ -504,7 +505,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.24480581}
   serializedVersion: 2
-  m_Radius: 0.26549768
+  m_Radius: 0.27
 --- !u!95 &5029346235138327580
 Animator:
   serializedVersion: 3
