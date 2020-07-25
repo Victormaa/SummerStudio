@@ -30,7 +30,9 @@ public class Collectables : MonoBehaviour
     public void PickUp(GameObject obj)
     {
         machine_parts++;
-        // AudioSource.PlayClipAtPoint(collectSound, transform.position);
+        if (collectSound != null) {
+            AudioSource.PlayClipAtPoint(collectSound, transform.position);
+        }
         obj.SetActive(false);
     }
 

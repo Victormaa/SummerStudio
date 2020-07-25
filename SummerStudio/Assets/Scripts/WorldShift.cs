@@ -18,10 +18,13 @@ public class WorldShift : MonoBehaviour
     private AudioSource[] tracks;
     private bool time_start = false;
     private bool shift_cooldown_start = false; //new  field
-    [SerializeField] private float max_time;
-    [SerializeField] private float current_time;
-    [SerializeField] private float current_cooldown_time; //new field
+    private bool queueShift = false;
+    [SerializeField] private float max_time = 3f;
+    [SerializeField] private float current_time = 0f;
+    [SerializeField] private float current_cooldown_time =3f; //new field
+    private float timeShiftPressed = -1f;
     [SerializeField] [Range(0,3)] private float shiftBufferTime; //new field
+    [SerializeField] [Range(0,3)] private float shiftInputBuffer = 0.1f; //input buffer; if player tries to shift before cooldown or shiftbuffer ends it queues it up
     [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
@@ -29,6 +32,7 @@ public class WorldShift : MonoBehaviour
     [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
     [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
     public float musicVolume = 1f;
+    [SerializeField] private AudioSource worldShiftSound;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +56,7 @@ public class WorldShift : MonoBehaviour
 
         tracks = this.gameObject.GetComponents<AudioSource>();
         //tracks[0].clip = physical_bgm;
-        tracks[0].volume = 1;
+        tracks[0].volume = musicVolume;
         //tracks[0].loop = true;
 
         //tracks[1].clip = kenos_bgm;
@@ -78,12 +82,15 @@ public class WorldShift : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
+            if (current_cooldown_time <= shiftCooldownTime || current_time <= shiftInputBuffer) {
+                timeShiftPressed = Time.time;
+            }
             shift_cooldown_start = true;
         }
 
         //end new code
 
-        if (Input.GetMouseButtonDown(0) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
+        if ((Input.GetMouseButtonDown(0)) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
         {
             ExecuteWorldShift();
             time_start = true;
@@ -91,7 +98,7 @@ public class WorldShift : MonoBehaviour
             current_cooldown_time = 0f;
         }
         //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
-        else if ((Input.GetMouseButtonDown(0) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
+        else if (((Input.GetMouseButtonDown(0)  || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
         {
             ExecuteWorldShift();
             current_time = 0f;
@@ -128,6 +135,9 @@ public class WorldShift : MonoBehaviour
 
     void ExecuteWorldShift()
     {
+        if (worldShiftSound != null) {
+            worldShiftSound.Play();
+        }
         w_Type = !w_Type; //toggle world type on each button press
         Physics2D.IgnoreLayerCollision(8, 10, ignore_Layer); //toggle ignore on physical layer
         Physics2D.IgnoreLayerCollision(8, 11, !ignore_Layer); //toggle ignore on kenos layer
