@@ -131,9 +131,9 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   physical_platforms: []
   kenos_platforms: []
-  max_time: 0
+  max_time: 3
   current_time: 0
-  current_cooldown_time: 0
+  current_cooldown_time: 3
   shiftBufferTime: 0
   phys_world_opacity: 0.3
   kenos_world_opacity: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5029346234971668198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80b5849ceace2734da4d6c9b8fa9b095, type: 3}
   m_Name: 
@@ -477,9 +477,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4099418257374492983, guid: 09231fb38995ece499213f5233d30277,
+  m_Sprite: {fileID: -824388629846048450, guid: 0083d79172f24b84097170c858897bf8,
     type: 3}
-  m_Color: {r: 0.49021006, g: 0.72697324, b: 0.764151, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
