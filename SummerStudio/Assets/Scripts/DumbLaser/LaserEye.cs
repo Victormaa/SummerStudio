@@ -8,7 +8,7 @@ using UnityEngine;
 
 public enum LaserState
 {
-    Hide,
+    Hide, // should this enemy appear only in one world?
     Sleeping,
     Alerting,
     Aiming,
@@ -18,27 +18,28 @@ public enum LaserState
 
 public class LaserEye : MonoBehaviour
 {
-    public LaserState mLaserState = LaserState.Hide;
+    public LaserState mLaserState = LaserState.Hide;    //temporary "public" it should be private in most case
 
-    private Transform target;
+    private Transform target;   // the attact target.
 
-    private bool left = false; //represent the eye's position
+    private bool left = false; //Now the laser eye only looks to 2 direction. left and right
 
-    private bool shotingleft = false; //The Shoting Moment represent the eye's position
+    //The behavior I designed was laser wont shot if player run out of his locked area.
+    //private bool shotingleft = false; //The Shoting Moment represent the eye's position
 
-    private float _time = 0;
+    private float _time = 0; // time to record stay at each state.
 
-    private Vector2 _shotLastPosition = Vector2.zero; //the last position player stayed at
+    private Vector2 _shotLastPosition = Vector2.zero; //the Locked position player stayed at
 
     [Header("General")]
 
-    public LineRenderer lineRenderer;
-    public float range = 7.5f;
-    public Transform firePoint;
+    public LineRenderer lineRenderer;   //demo's effect
+    public float range = 7.5f;  //shooting range, eye go alert when player inside this range around him
+    public Transform firePoint; //the position of the eye
     public float AimToLockTime = 1; //AimToLockTime
     public float AlertToAimTime = 3; // AwakeToAimTime
-    public Animator animator;
-    public float LockedToShootTime = 0;
+    public Animator animator;   //
+    public float LockedToShootTime = 0; // as the name
 
     [Header("Temperary")]
 
@@ -211,10 +212,11 @@ public class LaserEye : MonoBehaviour
                 animator.SetBool("Sleep", false);
                 break;
             case LaserState.Alerting:
-                CancelInvoke("CheckPlayer");
+                
                 break;
             case LaserState.Aiming:
                 lineRenderer.enabled = false;
+                CancelInvoke("CheckPlayer");
                 break;
             case LaserState.Locked:
                 break;
