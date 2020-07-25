@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public Collider2D bottonCollider2D;
+
     private CharacterController2D m_controller2D;
 
     [Range(5,50)]public float runSpeed = 40f;
@@ -62,6 +64,12 @@ public class Movement : MonoBehaviour
     public void onCrouch(bool crouch)
     {
         Debug.Log(crouch);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Physical")
+            Debug.Log(collision.gameObject.name);
     }
 }
 
