@@ -14,12 +14,12 @@ public class MenuNavigation : MonoBehaviour
     [SerializeField] [Range(0, 1)] float selectVolume = 1f;
 
     private bool controlEnabled = true;
-    private Color32 selectedColor = new Color32(0, 180, 0, 255);
-    private Color32 unselectedColor = new Color32(255, 255, 255, 255);
-    private Color32 clickedColor = new Color32(0, 255, 0, 255);
+    [SerializeField] private Color32 selectedColor = new Color32(0, 180, 0, 255);
+    [SerializeField] private Color32 unselectedColor = new Color32(255, 255, 255, 255);
+    [SerializeField] private Color32 clickedColor = new Color32(0, 255, 0, 255);
 
     // public const int POINTERXPOS = 400;
-    public Image pointer;
+    public GameObject pointer;
 
     public Text[] options;
 
@@ -50,7 +50,9 @@ public class MenuNavigation : MonoBehaviour
             }
             options[selectedOption].color = selectedColor;
             pointer.transform.position = new Vector3(pointer.transform.position.x, options[selectedOption].transform.position.y);
-            menuSounds.PlayOneShot(menuNavSound, volume);
+            if (menuSounds != null && menuNavSound != null) {
+                menuSounds.PlayOneShot(menuNavSound, volume);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && controlEnabled == true/*|| Controller input*/)
@@ -66,13 +68,17 @@ public class MenuNavigation : MonoBehaviour
             }
             options[selectedOption].color = selectedColor;
             pointer.transform.position = new Vector3(pointer.transform.position.x, options[selectedOption].transform.position.y);
-            menuSounds.PlayOneShot(menuNavSound, volume);
+            if (menuSounds != null && menuNavSound != null) {
+                menuSounds.PlayOneShot(menuNavSound, volume);
+            }
         }
 
         if (controlEnabled == true && (Input.GetKeyDown(KeyCode.Space) ||  Input.GetKeyDown("joystick button 0"))){
             controlEnabled = false;
             // Debug.Log("Picked: " + selectedOption); //For testing as the switch statment does nothing right now.
-            menuSounds.PlayOneShot(menuSelectSound, selectVolume);
+            if (menuSounds != null && menuSelectSound != null) {
+                menuSounds.PlayOneShot(menuSelectSound, selectVolume);
+            }
             options[selectedOption].color = clickedColor;
             StartCoroutine(MenuOptionSceneChange());
             
@@ -80,15 +86,15 @@ public class MenuNavigation : MonoBehaviour
     }
     IEnumerator MenuOptionSceneChange() {
             yield return new WaitForSeconds(0.3f);
-            // if (options[selectedOption].tag == "StartOption") {
-            //     sceneLoader.SceneLoader(6);
-            // }
+            if (options[selectedOption].tag == "StartOption") {
+                SceneManager.LoadScene(1);
+            }
             // else if (options[selectedOption].tag == "MainMenuOption") {
             //     sceneLoader.SceneLoader(0);
             // }
-            // else if (options[selectedOption].tag == "QuitOption") {
-            //     sceneLoader.doExitGame();
-            // }
+            else if (options[selectedOption].tag == "QuitOption") {
+                Application.Quit();
+            }
             // else if (options[selectedOption].tag == "SettingsOption") {
             //     sceneLoader.SceneLoader(7);
             // }
