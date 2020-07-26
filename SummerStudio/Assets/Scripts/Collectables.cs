@@ -50,7 +50,9 @@ public class Collectables : MonoBehaviour
         if(collision.gameObject.tag == "Machine Parts")
         {
             PickUp(collision.gameObject);
-            mparts[machine_parts - 1].enabled = true;
+            if (machine_parts > 0) {    
+                mparts[machine_parts - 1].enabled = true;
+            }
         }
 
         if(collision.gameObject.tag == "Tutorial Level 4")

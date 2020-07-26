@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4965846765907541447}
   - component: {fileID: 4965846765907541446}
-  - component: {fileID: 4965846765907541445}
+  - component: {fileID: 7216294556453734858}
   m_Layer: 0
   m_Name: BulkheadPiece
   m_TagString: Untagged
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4965846765907541445
+--- !u!61 &7216294556453734858
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,7 +91,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 4965846765907541444}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: aced2c97ae9e79244a84a971fc09c3c4, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
