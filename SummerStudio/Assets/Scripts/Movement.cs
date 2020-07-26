@@ -49,7 +49,7 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
             jump = true;
 
-        if(this.GetComponent<CharacterController2D>().IsStuck())
+        if (this.GetComponent<CharacterController2D>().IsStuck())
         {
             this.gameObject.transform.SetY(0.15f);
         }

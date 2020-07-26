@@ -41,10 +41,15 @@ public class LaserEye : MonoBehaviour
     public Animator animator;   //
     public float LockedToShootTime = 0; // as the name
 
+    [Header("Direction")]
+    Vector2 normalVec;
+    Vector2 playersDirVec;
+
     [Header("Temperary")]
 
     public GameObject Bursteffect;
     public LineRenderer shotlineRenderer;
+    public LineRenderer testlineRenderer;
 
     private void Awake()
     {
@@ -53,6 +58,12 @@ public class LaserEye : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject root = this.transform.Find("Root").gameObject;
+
+        normalVec = new Vector2(firePoint.position.x, firePoint.position.y) 
+            - new Vector2(root.transform.position.x, root.transform.position.y);
+        normalVec = normalVec.normalized;
+
         changeState(LaserState.Hide);
     }
 
@@ -72,10 +83,10 @@ public class LaserEye : MonoBehaviour
     {
         if (this.enabled && mLaserState == LaserState.Hide)
             changeState(LaserState.Sleeping);
-
         target = GameObject.FindGameObjectWithTag("Player").transform;
         Vector2 FP = firePoint.position;
         Vector2 TP = target.position;
+        playersDirVec = (TP - FP).normalized;
         switch (mLaserState)
         {
             case LaserState.Hide:
@@ -83,7 +94,7 @@ public class LaserEye : MonoBehaviour
                 break;
             case LaserState.Sleeping:
                 //Lasereye would close
-                if(Vector2.Distance(FP, TP) < range)
+                if(Vector2.Distance(FP, TP) < range && Vector2.Dot(playersDirVec, normalVec) > 0)
                 {
                     changeState(LaserState.Alerting);
                 }
@@ -108,7 +119,7 @@ public class LaserEye : MonoBehaviour
                     changeState(LaserState.Sleeping);
                 }
                 // if player get out of the detect range
-                if (Vector2.Distance(FP, TP) > range)
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
@@ -119,13 +130,10 @@ public class LaserEye : MonoBehaviour
                 _time += Time.deltaTime;
                 if (_time > AimToLockTime)
                 {
-                    //if (shotingleft == left)
-                    //{
                         _shotLastPosition = target.position - firePoint.position;
                         renderline(target.position, firePoint.position);
                         Invoke("Burst", LockedToShootTime);
                         changeState(LaserState.Locked);
-                    //}
                 }
                 if (Vector2.Distance(FP, TP) > range)
                 {
@@ -133,7 +141,7 @@ public class LaserEye : MonoBehaviour
                 }
                 break;
             case LaserState.Locked:
-                if (Vector2.Distance(FP, TP) > range)
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
@@ -171,7 +179,7 @@ public class LaserEye : MonoBehaviour
                 changeState(LaserState.Alerting);
                 //deal damage
 
-                if (Vector2.Distance(FP, TP) > range)
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
