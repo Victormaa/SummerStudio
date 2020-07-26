@@ -40,6 +40,7 @@ public class LaserEye : MonoBehaviour
     public float AlertToAimTime = 3; // AwakeToAimTime
     public Animator animator;   //
     public float LockedToShootTime = 0; // as the name
+    public ParticleSystem chargingEffect;
 
     [Header("Direction")]
     Vector2 normalVec;
@@ -131,8 +132,6 @@ public class LaserEye : MonoBehaviour
                 if (_time > AimToLockTime)
                 {
                         _shotLastPosition = target.position - firePoint.position;
-                        renderline(target.position, firePoint.position);
-                        Invoke("Burst", LockedToShootTime);
                         changeState(LaserState.Locked);
                 }
                 if (Vector2.Distance(FP, TP) > range)
@@ -141,6 +140,7 @@ public class LaserEye : MonoBehaviour
                 }
                 break;
             case LaserState.Locked:
+
                 if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
@@ -198,7 +198,9 @@ public class LaserEye : MonoBehaviour
         shotlineRenderer.enabled = false;
 
         hit2D = Physics2D.Raycast(firePoint.position, _shotLastPosition );
-        Instantiate(Bursteffect, hit2D.point, Quaternion.identity);
+        GameObject Shooteffect = Instantiate(Bursteffect, hit2D.point, Quaternion.identity);
+        Shooteffect.GetComponent<ParticleSystem>().Play();
+        DestoryBullet(2, Shooteffect); // there could build a simple queue to hold the bullet not to destory.
         changeState(LaserState.Shoot);
     }
 
@@ -224,6 +226,7 @@ public class LaserEye : MonoBehaviour
                 break;
             case LaserState.Aiming:
                 lineRenderer.enabled = false;
+                chargingEffect.Stop();
                 CancelInvoke("CheckPlayer");
                 break;
             case LaserState.Locked:
@@ -254,9 +257,12 @@ public class LaserEye : MonoBehaviour
                 break;
             case LaserState.Aiming:
                 Debug.Log("Laser: Aiming State");
+                ChargeLaser();
                 _time = 0;
                 break;
             case LaserState.Locked:
+                renderline(target.position, firePoint.position);
+                Invoke("Burst", LockedToShootTime);
                 Debug.Log("Laser: Locked State");
                 break;
             case LaserState.Shoot:
@@ -281,5 +287,15 @@ public class LaserEye : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, target.position);
+    }
+
+    private void DestoryBullet(int secs, GameObject bullet)
+    {
+        Destroy(bullet, secs);
+    }
+
+    private void ChargeLaser()
+    {
+        chargingEffect.Play();
     }
 }
