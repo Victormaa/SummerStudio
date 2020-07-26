@@ -14,6 +14,9 @@ TagManager:
   - Tutorial Level 4
   - StartOption
   - QuitOption
+  - MenuCanvas
+  - ResumeGameOption
+  - MainMenuOption
   layers:
   - Default
   - TransparentFX

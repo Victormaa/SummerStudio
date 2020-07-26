@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -278,6 +278,141 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &465090056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 708017624706294791, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360712, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360716, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_Name
+      value: PauseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202439543115360716, guid: b9895fd7d3957ce49a96b37ba058c50f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9895fd7d3957ce49a96b37ba058c50f, type: 3}
+--- !u!223 &465090057 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4202439543115360719, guid: b9895fd7d3957ce49a96b37ba058c50f,
+    type: 3}
+  m_PrefabInstance: {fileID: 465090056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &514646178 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5713848286845220103, guid: 315d35f6bf565ad40b3f8055ca059089,
@@ -1241,6 +1376,11 @@ PrefabInstance:
       propertyPath: mparts_shadow.Array.data[0]
       value: 
       objectReference: {fileID: 1260791277}
+    - target: {fileID: 5029346234971668194, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 465090057}
     - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: physical_platforms.Array.size

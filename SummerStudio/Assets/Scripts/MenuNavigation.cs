@@ -89,17 +89,17 @@ public class MenuNavigation : MonoBehaviour
             if (options[selectedOption].tag == "StartOption") {
                 SceneManager.LoadScene(1);
             }
-            // else if (options[selectedOption].tag == "MainMenuOption") {
-            //     sceneLoader.SceneLoader(0);
-            // }
+            else if (options[selectedOption].tag == "MainMenuOption") {
+                SceneManager.LoadScene(0);
+            }
             else if (options[selectedOption].tag == "QuitOption") {
                 Application.Quit();
             }
-            // else if (options[selectedOption].tag == "SettingsOption") {
-            //     sceneLoader.SceneLoader(7);
+            // else if (options[selectedOption].tag == "RestartOption") {
+            //     //restart current scene
             // }
-            // else if (options[selectedOption].tag == "CreditsOption") {
-            //     sceneLoader.SceneLoader(8);
+            // else if (options[selectedOption].tag == "ResumeGameOption") {
+            //     //resume game
             // }
             controlEnabled = true;
             options[selectedOption].color = selectedColor;

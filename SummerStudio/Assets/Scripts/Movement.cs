@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public Collider2D bottonCollider2D;
-
+    // public Collider2D bottonCollider2D; //dunno what this is for so it's disabled for now
     private CharacterController2D m_controller2D;
-
+    [SerializeField] Canvas pauseMenu;
+    public bool characterControlEnabled = true; //disable when game is paused or if player dies/completes level
+    private float timeScaleAtPause = 1;
     [Range(5,50)]public float runSpeed = 40f;
-
     bool crouch = false;
-
     bool jump = false;
-
     float horizontalMove = 0;
 
     public Texture2D CursorTex;
@@ -38,27 +36,52 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        if (Input.GetKeyDown("escape") || Input.GetKeyDown("p")) { //if player presses button to pause game
+            characterControlEnabled = !characterControlEnabled; //toggle player control
+            //toggle pause menu
+            if (characterControlEnabled) {
+                if (pauseMenu != null) {
+                    pauseMenu.gameObject.SetActive(false);
+                }
+                Time.timeScale = timeScaleAtPause;
+                Debug.Log("Game Unpaused.");
+            }
+            else {
+                if (pauseMenu != null) {
+                    pauseMenu.gameObject.SetActive(true);
+                }
+                timeScaleAtPause = Time.timeScale;
+                Time.timeScale = 0;
+                Debug.Log("Game Paused.");
+            }
+        }
+        
+        if (characterControlEnabled) {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
-        if (Input.GetButtonDown("Crouch"))
-            crouch = true;
+            if (Input.GetButtonDown("Crouch"))
+                crouch = true;
 
-        if (Input.GetButtonUp("Crouch"))
-            crouch = false;
+            if (Input.GetButtonUp("Crouch"))
+                crouch = false;
 
-        if (Input.GetButtonDown("Jump"))
-            jump = true;
+            if (Input.GetButtonDown("Jump"))
+                jump = true;
 
-        if (this.GetComponent<CharacterController2D>().IsStuck())
-        {
-            this.gameObject.transform.SetY(0.15f);
+            if(this.GetComponent<CharacterController2D>().IsStuck())
+            {
+                Debug.Log("Character Registers as Stuck");
+                // this.gameObject.transform.SetY(0.15f);
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        m_controller2D.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        jump = false;
+        if (characterControlEnabled) {
+            m_controller2D.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+            jump = false;
+        }
     }
 
     public void onCrouch(bool crouch)
