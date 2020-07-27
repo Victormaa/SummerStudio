@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.U2D;
 using UnityEngine.U2D;
+using UnityEngine.UI;
 
 public class WorldShift : MonoBehaviour
 {
@@ -34,6 +35,15 @@ public class WorldShift : MonoBehaviour
     [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
     public float musicVolume = 1f;
     [SerializeField] private AudioSource worldShiftSound;
+
+    //new fields for shift counter
+    public Image[] portalBG;
+    public Image[] portal;
+    public int max_shift;
+    public int current_shift;
+    public float shift_refresh_time;
+    //private bool start_shift_timer = true;
+    [SerializeField] private float shift_timer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -72,12 +82,27 @@ public class WorldShift : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
-        if(time_start == true)
+    {
+        shift_timer += Time.deltaTime;
+        UpdateShiftCounter();
+
+        if (shift_timer >= shift_refresh_time && current_shift < max_shift)
+        {
+            current_shift++;
+            shift_timer = 0f;
+        }
+        else if (shift_timer >= shift_refresh_time && current_shift >= max_shift)
+        {
+            shift_timer = 0f;
+        }
+
+        if (time_start == true)
         {
             current_time += Time.deltaTime;
         }
+        //timer execution
         //new code
+        /*
         if(shift_cooldown_start == true)
         {
             current_cooldown_time += Time.deltaTime;
@@ -106,9 +131,23 @@ public class WorldShift : MonoBehaviour
                 time_start = false;
                 shift_cooldown_start = true; //new line
             }
+        }*/
+
+        if (Input.GetMouseButtonDown(0) && w_Type == true && current_shift > 0)
+        {
+            ExecuteWorldShift();
+            current_shift--;
+            portal[current_shift].enabled = false;
+            time_start = true;
+        }
+        else if ((Input.GetMouseButtonDown(0) || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false || current_time >= max_time)
+        {
+            ExecuteWorldShift();
+            current_time = 0f;
+            time_start = false;
         }
 
-        if(w_Type == true)
+        if (w_Type == true)
         {
             PostProcessVolume.SetActive(false);
         }
@@ -253,6 +292,36 @@ public class WorldShift : MonoBehaviour
         }
     }
 
+    //new function
+    public void HideShiftCounter()
+    {
+        for (int i = 0; i < max_shift; i++)
+        {
+            portalBG[i].enabled = false;
+            portal[i].enabled = false;
+        }
+    }
+
+    public void ShowShiftCounter()
+    {
+        for (int i = 0; i < max_shift; i++)
+        {
+            portalBG[i].enabled = true;
+        }
+
+        for (int i = 0; i < current_shift; i++)
+        {
+            portal[i].enabled = true;
+        }
+    }
+
+    void UpdateShiftCounter()
+    {
+        for (int i = 0; i < current_shift; i++)
+        {
+            portal[i].enabled = true;
+        }
+    }
 
     IEnumerator ChangeSpriteOpacity(GameObject gameObject, float opacityStart, float opacityTarget, float duration) {
         for (float t=0f; t<duration; t+=Time.deltaTime) {
