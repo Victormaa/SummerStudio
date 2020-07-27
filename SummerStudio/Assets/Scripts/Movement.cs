@@ -37,22 +37,12 @@ public class Movement : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown("escape") || Input.GetKeyDown("p")) { //if player presses button to pause game
-            characterControlEnabled = !characterControlEnabled; //toggle player control
             //toggle pause menu
-            if (characterControlEnabled) {
-                if (pauseMenu != null) {
-                    pauseMenu.gameObject.SetActive(false);
-                }
-                Time.timeScale = timeScaleAtPause;
-                Debug.Log("Game Unpaused.");
+            if (!characterControlEnabled) {
+                resumeGame();
             }
             else {
-                if (pauseMenu != null) {
-                    pauseMenu.gameObject.SetActive(true);
-                }
-                timeScaleAtPause = Time.timeScale;
-                Time.timeScale = 0;
-                Debug.Log("Game Paused.");
+                pauseGame();
             }
         }
         
@@ -93,6 +83,25 @@ public class Movement : MonoBehaviour
     {
         if(collision.gameObject.tag == "Physical")
             Debug.Log(collision.gameObject.name);
+    }
+
+    public void pauseGame() {
+        characterControlEnabled = false; //toggle player control
+        if (pauseMenu != null) {
+            pauseMenu.gameObject.SetActive(true);
+        }
+        timeScaleAtPause = Time.timeScale;
+        Time.timeScale = 0;
+        Debug.Log("Game Paused.");
+    }
+
+    public void resumeGame() {
+        characterControlEnabled = true; //toggle player control
+        if (pauseMenu != null) {
+            pauseMenu.gameObject.SetActive(false);
+        }
+        Time.timeScale = timeScaleAtPause;
+        Debug.Log("Game Unpaused.");
     }
 }
 

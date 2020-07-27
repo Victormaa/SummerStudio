@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MenuNavigation : MonoBehaviour
 {
+    [SerializeField] private Movement movement;
     // public LoadScene sceneLoader;
     public AudioClip menuNavSound;
     public AudioClip menuSelectSound;
@@ -33,11 +34,12 @@ public class MenuNavigation : MonoBehaviour
         }
         options[0].color = selectedColor;
         pointer.transform.position = new Vector3(pointer.transform.position.x, options[0].transform.position.y);
+        movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
     }
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && controlEnabled == true/*|| Controller input*/)
+        if ((Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown("s")) && controlEnabled == true/*|| Controller input*/)
         { //Input telling it to go up or down.
             selectedOption += 1;
             if (selectedOption >= options.Length) //If at end of list go back to top
@@ -55,7 +57,7 @@ public class MenuNavigation : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && controlEnabled == true/*|| Controller input*/)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("w")) && controlEnabled == true/*|| Controller input*/)
         { //Input telling it to go up or down.
             selectedOption -= 1;
             if (selectedOption < 0) //If at end of list go back to top
@@ -85,23 +87,37 @@ public class MenuNavigation : MonoBehaviour
         }
     }
     IEnumerator MenuOptionSceneChange() {
-            yield return new WaitForSeconds(0.3f);
-            if (options[selectedOption].tag == "StartOption") {
-                SceneManager.LoadScene(1);
-            }
-            else if (options[selectedOption].tag == "MainMenuOption") {
-                SceneManager.LoadScene(0);
-            }
-            else if (options[selectedOption].tag == "QuitOption") {
-                Application.Quit();
-            }
-            // else if (options[selectedOption].tag == "RestartOption") {
-            //     //restart current scene
-            // }
-            // else if (options[selectedOption].tag == "ResumeGameOption") {
-            //     //resume game
-            // }
-            controlEnabled = true;
-            options[selectedOption].color = selectedColor;
+        yield return WaitForRealSeconds(0.3f);
+        if (options[selectedOption].tag == "StartOption") {
+            SceneManager.LoadScene(1);
         }
+        else if (options[selectedOption].tag == "MainMenuOption") {
+            SceneManager.LoadScene(0);
+        }
+        else if (options[selectedOption].tag == "QuitOption") {
+            Application.Quit();
+        }
+        else if (options[selectedOption].tag == "RestartOption") {
+            Debug.Log("Restarting Scene...");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (movement !=null) {
+                movement.resumeGame();
+            }
+            Debug.Log("Scene Restarted");
+        }
+        else if (options[selectedOption].tag == "ResumeGameOption") {
+            if (movement !=null) {
+                movement.resumeGame();
+            }
+        }
+        controlEnabled = true;
+        options[selectedOption].color = selectedColor;
+    }
+
+    IEnumerator WaitForRealSeconds (float seconds) {
+        float startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup-startTime < seconds) {
+            yield return null;
+        }
+    }
 }

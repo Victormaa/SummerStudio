@@ -9,6 +9,7 @@ public class WorldShift : MonoBehaviour
     public bool w_Type = true; //true = physical world; false = kenos world
     private bool ignore_Layer = true;
     public CharacterController2D playerController;
+    /*[SerializeField]*/ private Movement movement;
     public GameObject physical_world;
     public GameObject kenos_world;
     public GameObject PostProcessVolume;
@@ -54,6 +55,8 @@ public class WorldShift : MonoBehaviour
         SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
 
+        movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
+
         tracks = this.gameObject.GetComponents<AudioSource>();
         //tracks[0].clip = physical_bgm;
         tracks[0].volume = musicVolume;
@@ -80,30 +83,29 @@ public class WorldShift : MonoBehaviour
             current_cooldown_time += Time.deltaTime;
         }
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            if (current_cooldown_time <= shiftCooldownTime || current_time <= shiftInputBuffer) {
-                timeShiftPressed = Time.time;
+        if (movement == null || movement.characterControlEnabled) {
+            if(Input.GetMouseButtonDown(0))
+            {
+                if (current_cooldown_time <= shiftCooldownTime || current_time <= shiftInputBuffer) {
+                    timeShiftPressed = Time.time;
+                }
+                shift_cooldown_start = true;
             }
-            shift_cooldown_start = true;
-        }
-
-        //end new code
-
-        if ((Input.GetMouseButtonDown(0)) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
-        {
-            ExecuteWorldShift();
-            time_start = true;
-            shift_cooldown_start = false;
-            current_cooldown_time = 0f;
-        }
-        //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
-        else if (((Input.GetMouseButtonDown(0)  || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
-        {
-            ExecuteWorldShift();
-            current_time = 0f;
-            time_start = false;
-            shift_cooldown_start = true; //new line
+            if ((Input.GetMouseButtonDown(0)) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
+            {
+                ExecuteWorldShift();
+                time_start = true;
+                shift_cooldown_start = false;
+                current_cooldown_time = 0f;
+            }
+            //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
+            else if (((Input.GetMouseButtonDown(0)  || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
+            {
+                ExecuteWorldShift();
+                current_time = 0f;
+                time_start = false;
+                shift_cooldown_start = true; //new line
+            }
         }
 
         if(w_Type == true)
