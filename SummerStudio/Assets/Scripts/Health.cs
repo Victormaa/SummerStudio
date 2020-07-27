@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+//I saw bug inside this document couple times. it seems like the array here is out of.
 
 public class Health : MonoBehaviour
 {
@@ -17,6 +20,16 @@ public class Health : MonoBehaviour
     [SerializeField] private AudioClip healthpackSound;
     [SerializeField] private AudioClip getHurtSound;
 
+    [Header("Events")]
+    [Space]
+    public static UnityEvent onTakenDamage;
+
+    private void Awake()
+    {
+        if (onTakenDamage == null)
+            onTakenDamage = new UnityEvent();
+    }
+
     private void Start()
     {
         game_over.SetActive(false);
@@ -25,15 +38,26 @@ public class Health : MonoBehaviour
         {
             HideHealth();
         }
-
+        onTakenDamage.AddListener(TakeDamage);
     }
+
+    /*
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+            onTakenDamage.Invoke();
+    }
+    */
 
     public void TakeDamage()
     {
-        if(current_health <= 1)
+        
+        if (current_health <= 1)
         {
             current_health--;
-            hearts[current_health].enabled = false;
+
+            hearts[current_health].enabled = false; //  goes wrong when current health lower than 0;
+
             game_over.SetActive(true); //display game over
         }
         else

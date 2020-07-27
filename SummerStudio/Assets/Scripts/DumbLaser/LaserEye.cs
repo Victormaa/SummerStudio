@@ -40,7 +40,9 @@ public class LaserEye : MonoBehaviour
     public float AlertToAimTime = 3; // AwakeToAimTime
     public Animator animator;   //
     public float LockedToShootTime = 0; // as the name
-    public ParticleSystem chargingEffect;
+
+    public ParticleSystem chargingEffect;   //particle effect when laser hit stuff.
+    public AudioSource chargingSound;   //sounds when charging
 
     [Header("Direction")]
     Vector2 normalVec;
@@ -149,18 +151,7 @@ public class LaserEye : MonoBehaviour
             case LaserState.Shoot:
                 // shot state is a process
                 // the shot actually happens at the last moment of the state;
-                //shotingleft = (target.position.x - this.transform.position.x) < 0;
-
-                /*
-                if(shotingleft == left) // this stuff make sure the laser eye could shot like when player stay at the same side with detect
-                {
-                    Laser();
-                }
-                else
-                {
-                    lineRenderer.enabled = false;
-                }
-                */
+                
 
                 //_time += Time.deltaTime;
 
@@ -199,6 +190,10 @@ public class LaserEye : MonoBehaviour
 
         hit2D = Physics2D.Raycast(firePoint.position, _shotLastPosition );
         GameObject Shooteffect = Instantiate(Bursteffect, hit2D.point, Quaternion.identity);
+
+        if (hit2D.collider.gameObject.tag == "Player")
+            Health.onTakenDamage.Invoke();  //eventsystem
+
         Shooteffect.GetComponent<ParticleSystem>().Play();
         DestoryBullet(2, Shooteffect); // there could build a simple queue to hold the bullet not to destory.
         changeState(LaserState.Shoot);
@@ -227,6 +222,7 @@ public class LaserEye : MonoBehaviour
             case LaserState.Aiming:
                 lineRenderer.enabled = false;
                 chargingEffect.Stop();
+                chargingSound.Stop();
                 CancelInvoke("CheckPlayer");
                 break;
             case LaserState.Locked:
@@ -296,6 +292,7 @@ public class LaserEye : MonoBehaviour
 
     private void ChargeLaser()
     {
+        chargingSound.Play();
         chargingEffect.Play();
     }
 }
