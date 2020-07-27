@@ -1,17 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Experimental.U2D;
 using UnityEngine.U2D;
-using UnityEngine.UI;
 
 public class WorldShift : MonoBehaviour
 {
     public bool w_Type = true; //true = physical world; false = kenos world
     private bool ignore_Layer = true;
     public CharacterController2D playerController;
+    /*[SerializeField]*/ private Movement movement;
     public GameObject physical_world;
     public GameObject kenos_world;
     public GameObject PostProcessVolume;
@@ -20,35 +18,22 @@ public class WorldShift : MonoBehaviour
     public GameObject[] kenos_platforms;
     private AudioSource[] tracks;
     private bool time_start = false;
+    private bool shift_cooldown_start = false; //new  field
     private bool queueShift = false;
     [SerializeField] private float max_time = 3f;
     [SerializeField] private float current_time = 0f;
+    [SerializeField] private float current_cooldown_time =3f; //new field
     private float timeShiftPressed = -1f;
+    [SerializeField] [Range(0,3)] private float shiftBufferTime; //new field
     [SerializeField] [Range(0,3)] private float shiftInputBuffer = 0.1f; //input buffer; if player tries to shift before cooldown or shiftbuffer ends it queues it up
     [SerializeField] [Range(0, 1)] private float phys_world_opacity = 0.3f;
     [SerializeField] [Range(0, 1)] private float kenos_world_opacity = 0f;
     [SerializeField] [Range(0,1)] private float bulletTimeDuration = 0.2f;
     [SerializeField] [Range(0,0.5f)] private float worldshiftTransitionDuration = 0.05f;
     [SerializeField] [Range(0,2f)] private float musicChangeDuration = 0.25f;
+    [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
     public float musicVolume = 1f;
     [SerializeField] private AudioSource worldShiftSound;
-
-    //new fields for shift counter
-    public Image[] portalBG;
-    public Image[] portal;
-    public int max_shift;
-    public int current_shift;
-    public float shift_refresh_time;
-    //private bool start_shift_timer = true;
-    [SerializeField] private float shift_timer = 0;
-
-    //deprecated fields (for removal)
-    private bool shift_cooldown_start = false; //new  field
-    [SerializeField] [Range(0, 3)] private float shiftCooldownTime; //new field
-    [SerializeField] [Range(0, 3)] private float shiftBufferTime; //new field
-    [SerializeField] private float current_cooldown_time = 3f; //new field
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +55,8 @@ public class WorldShift : MonoBehaviour
         SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
 
+        movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
+
         tracks = this.gameObject.GetComponents<AudioSource>();
         //tracks[0].clip = physical_bgm;
         tracks[0].volume = musicVolume;
@@ -85,74 +72,40 @@ public class WorldShift : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        shift_timer += Time.deltaTime;
-        UpdateShiftCounter();
-
-        if(shift_timer >= shift_refresh_time && current_shift < max_shift)
-        {
-            current_shift++;
-            shift_timer = 0f;
-        }
-        else if(shift_timer >= shift_refresh_time && current_shift >= max_shift)
-        {
-            shift_timer = 0f;
-        }
-
+    {   
         if(time_start == true)
         {
             current_time += Time.deltaTime;
         }
-        //timer execution
-        /*
         //new code
         if(shift_cooldown_start == true)
         {
             current_cooldown_time += Time.deltaTime;
         }
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            if (current_cooldown_time <= shiftCooldownTime || current_time <= shiftInputBuffer) {
-                timeShiftPressed = Time.time;
+        if (movement == null || movement.characterControlEnabled) {
+            if(Input.GetMouseButtonDown(0))
+            {
+                if (current_cooldown_time <= shiftCooldownTime || current_time <= shiftInputBuffer) {
+                    timeShiftPressed = Time.time;
+                }
+                shift_cooldown_start = true;
             }
-            shift_cooldown_start = true;
-        }
-
-        //end new code
-        //
-        
-        if ((Input.GetMouseButtonDown(0)) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
-        //if((Input.GetMouseButtonDown(0)) && w_Type == true && current_shift > 0)
-        {
-            ExecuteWorldShift();
-            time_start = true;
-            shift_cooldown_start = false;
-            current_cooldown_time = 0f;
-        }
-        //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
-        else if (((Input.GetMouseButtonDown(0)  || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
-        //else if (((Input.GetMouseButtonDown(0) || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_shift > 0) || current_time >= max_time)
-        {
-            ExecuteWorldShift();
-            current_time = 0f;
-            time_start = false;
-            shift_cooldown_start = true; //new line
-        }
-        */
-        //no shift buffer timer execution
-        if(Input.GetMouseButtonDown(0) && w_Type == true && current_shift > 0)
-        {
-            ExecuteWorldShift();
-            current_shift--;
-            portal[current_shift].enabled = false;
-            time_start = true;
-        }
-        else if((Input.GetMouseButtonDown(0) || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false || current_time >= max_time)
-        {
-            ExecuteWorldShift();
-            current_time = 0f;
-            time_start = false;
+            if ((Input.GetMouseButtonDown(0)) && w_Type == true && current_cooldown_time >= shiftCooldownTime)
+            {
+                ExecuteWorldShift();
+                time_start = true;
+                shift_cooldown_start = false;
+                current_cooldown_time = 0f;
+            }
+            //old else if((Input.GetMouseButtonDown(0) && w_Type == false) || current_time >= max_time)
+            else if (((Input.GetMouseButtonDown(0)  || Time.time - timeShiftPressed <= shiftInputBuffer) && w_Type == false && current_time >= shiftBufferTime) || current_time >= max_time)
+            {
+                ExecuteWorldShift();
+                current_time = 0f;
+                time_start = false;
+                shift_cooldown_start = true; //new line
+            }
         }
 
         if(w_Type == true)
@@ -193,7 +146,6 @@ public class WorldShift : MonoBehaviour
         ignore_Layer = !ignore_Layer; //toggle ignore field
         SetWorldTransparency(w_Type);
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
-
         if (w_Type)
         {
             float startingPhysVolume = tracks[0].volume;
@@ -298,36 +250,6 @@ public class WorldShift : MonoBehaviour
             if (playerController != null) {
                 playerController.m_WhatIsGround = playerController.m_WhatIsGround | (1<<11); //add kenos world to ground check
             }
-        }
-    }
-    //new function
-    public void HideShiftCounter()
-    {
-        for (int i = 0; i < max_shift; i++)
-        {
-            portalBG[i].enabled = false;
-            portal[i].enabled = false;
-        }
-    }
-
-    public void ShowShiftCounter()
-    {
-        for (int i = 0; i < max_shift; i++)
-        {
-            portalBG[i].enabled = true;
-        }
-
-        for (int i = 0; i < current_shift; i++)
-        {
-            portal[i].enabled = true;
-        }
-    }
-
-    void UpdateShiftCounter()
-    {
-        for (int i = 0; i < current_shift; i++)
-        {
-            portal[i].enabled = true;
         }
     }
 

@@ -1099,13 +1099,22 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.41837147
-          value: 0.41449606
-          inSlope: 3.1644654
-          outSlope: 3.1644654
+          time: 0.103054255
+          value: 0.24355528
+          inSlope: 0.55803126
+          outSlope: 0.55803126
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.68920285
+          outWeight: 0.26727167
+        - serializedVersion: 3
+          time: 0.6016457
+          value: 0.6036875
+          inSlope: 3.7227283
+          outSlope: 3.7227283
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.16092962
           outWeight: 0.33696136
         - serializedVersion: 3
           time: 1
@@ -10108,6 +10117,7 @@ MonoBehaviour:
   animator: {fileID: 7008982724955409284}
   LockedToShootTime: 0.5
   chargingEffect: {fileID: 2675593542689617328}
+  chargingSound: {fileID: 0}
   Bursteffect: {fileID: 6766637733246501917}
   shotlineRenderer: {fileID: 7008982724165286215}
   testlineRenderer: {fileID: 0}
