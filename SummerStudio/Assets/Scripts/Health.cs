@@ -19,6 +19,7 @@ public class Health : MonoBehaviour
     public GameObject game_over;
     [SerializeField] private AudioClip healthpackSound;
     [SerializeField] private AudioClip getHurtSound;
+    private bool isColliding = false;
 
     [Header("Events")]
     [Space]
@@ -40,14 +41,6 @@ public class Health : MonoBehaviour
         }
         onTakenDamage.AddListener(TakeDamage);
     }
-
-    /*
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            onTakenDamage.Invoke();
-    }
-    */
 
     public void TakeDamage()
     {
@@ -97,14 +90,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeHealth(GameObject obj)
+    public void TakeHealth()
     {
         current_health++; //add to health
         hearts[current_health - 1].enabled = true; //show heart
         if (healthpackSound != null) {
             AudioSource.PlayClipAtPoint(healthpackSound, transform.position);
         }
-        Destroy(obj);
     }
 
     public int ReturnHealth()
@@ -125,11 +117,25 @@ public class Health : MonoBehaviour
         }
     }
 
+    private void CheckFirstCollision()
+    {
+        if(isColliding == false)
+        {
+            isColliding = true;
+        }
+        else
+        {
+            isColliding = false;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Health" && current_health < max_health)
+        CheckFirstCollision();
+        if(collision.gameObject.tag == "Health" && current_health < max_health && isColliding == true)
         {
-            TakeHealth(collision.gameObject);
+            Destroy(collision.gameObject);
+            TakeHealth();
         }
     }
 }
