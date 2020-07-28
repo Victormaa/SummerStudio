@@ -34,7 +34,9 @@ public class MenuNavigation : MonoBehaviour
         }
         options[0].color = selectedColor;
         pointer.transform.position = new Vector3(pointer.transform.position.x, options[0].transform.position.y);
-        movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
+        if (movement == null) {
+            movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
+        }
     }
 
     // Update is called once per frame

@@ -18,6 +18,7 @@ TagManager:
   - ResumeGameOption
   - MainMenuOption
   - RestartOption
+  - NextLevelTrigger
   layers:
   - Default
   - TransparentFX

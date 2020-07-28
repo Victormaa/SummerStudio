@@ -64,9 +64,9 @@ public class WorldShift : MonoBehaviour
         }
         SetWorldTransparency(w_Type);
         Physics2D.IgnoreLayerCollision(8, 11, ignore_Layer);
-
-        movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
-
+        if (movement == null) {
+            movement = (Movement) GameObject.FindObjectOfType (typeof(Movement));
+        }
         tracks = this.gameObject.GetComponents<AudioSource>();
         //tracks[0].clip = physical_bgm;
         tracks[0].volume = musicVolume;

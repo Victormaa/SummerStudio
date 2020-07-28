@@ -61,7 +61,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 2
   m_Material: {fileID: 0}
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b948fe8e68b17f647abd25e5670e4034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 450
+  m_JumpForce: 550
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.1
   m_AirControl: 1
@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84863bee702c4ed4d8dd52774a7d1e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottonCollider2D: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  characterControlEnabled: 1
   runSpeed: 40
   CursorTex: {fileID: 2800000, guid: 130f9a1da961f154397c802bd8cb056a, type: 3}
 --- !u!114 &5029346234971668195
@@ -150,6 +151,12 @@ MonoBehaviour:
   shiftCooldownTime: 0
   musicVolume: 0.5
   worldShiftSound: {fileID: 9145753995323669018}
+  portalBG: []
+  portal: []
+  max_shift: 3
+  current_shift: 0
+  shift_refresh_time: 3
+  shift_timer: 0
 --- !u!114 &5029346234971668192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15e9c0fdd6d88cc4dacb740d58e52625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endDoor: {fileID: 0}
   level_complete: {fileID: 0}
+  nextScene: 0
+  movement: {fileID: 0}
 --- !u!82 &836745453627771893
 AudioSource:
   m_ObjectHideFlags: 0
