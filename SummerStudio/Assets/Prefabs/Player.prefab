@@ -154,7 +154,7 @@ MonoBehaviour:
   portalBG: []
   portal: []
   max_shift: 3
-  current_shift: 0
+  current_shift: 1
   shift_refresh_time: 3
   shift_timer: 0
 --- !u!114 &5029346234971668192

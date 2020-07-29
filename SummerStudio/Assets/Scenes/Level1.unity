@@ -949,6 +949,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec932aea1f6d03e4caaca5fa1a76345b, type: 3}
+--- !u!1 &1223096867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6100132652009000547, guid: ec932aea1f6d03e4caaca5fa1a76345b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1223096866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1260791277 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6747292531731509502, guid: 315d35f6bf565ad40b3f8055ca059089,
@@ -1358,6 +1364,16 @@ PrefabInstance:
       propertyPath: level_complete
       value: 
       objectReference: {fileID: 514646178}
+    - target: {fileID: 5029346234971668190, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: movement
+      value: 
+      objectReference: {fileID: 5029346235801269311}
+    - target: {fileID: 5029346234971668190, guid: f14c591095e08fa45a976d4c7510d461,
+        type: 3}
+      propertyPath: endDoor
+      value: 
+      objectReference: {fileID: 1223096867}
     - target: {fileID: 5029346234971668192, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: hearts.Array.size
@@ -1620,11 +1636,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
-      propertyPath: max_shift
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
-        type: 3}
       propertyPath: portalBG.Array.data[0]
       value: 
       objectReference: {fileID: 1534055026}
@@ -1653,21 +1664,6 @@ PrefabInstance:
       propertyPath: portal.Array.data[2]
       value: 
       objectReference: {fileID: 1600839068}
-    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
-        type: 3}
-      propertyPath: current_shift
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5029346234971668195, guid: f14c591095e08fa45a976d4c7510d461,
-        type: 3}
-      propertyPath: shift_refresh_time
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5029346234971668197, guid: f14c591095e08fa45a976d4c7510d461,
-        type: 3}
-      propertyPath: m_JumpForce
-      value: 450
-      objectReference: {fileID: 0}
     - target: {fileID: 5029346234971668198, guid: f14c591095e08fa45a976d4c7510d461,
         type: 3}
       propertyPath: m_Name
@@ -1735,6 +1731,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f14c591095e08fa45a976d4c7510d461, type: 3}
+--- !u!114 &5029346235801269311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5029346234971668194, guid: f14c591095e08fa45a976d4c7510d461,
+    type: 3}
+  m_PrefabInstance: {fileID: 5029346235801269310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915327704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84863bee702c4ed4d8dd52774a7d1e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5713848286399354277
 PrefabInstance:
   m_ObjectHideFlags: 0
