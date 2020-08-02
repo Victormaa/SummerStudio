@@ -17,6 +17,10 @@ public class Exit : MonoBehaviour
     public GameObject level_complete;
     [SerializeField] private int nextScene = 0;
     [SerializeField] private Movement movement;
+    [SerializeField] private AudioSource physical_bgm;
+    [SerializeField] private AudioSource kenos_bgm;
+    [SerializeField] private AudioSource victory_bgm;
+    public float musicVolume = 1f;
 
     private void Start()
     {
@@ -39,6 +43,10 @@ public class Exit : MonoBehaviour
                 if (endDoor != null) {
                     endDoor.GetComponent<Animator>().SetTrigger("OpenDoor");
                 }
+                physical_bgm.Stop();
+                kenos_bgm.Stop();
+                victory_bgm.volume = musicVolume;
+                victory_bgm.Play();
                 level_complete.SetActive(true);
             }
         }
