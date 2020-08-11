@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,8 @@ public class Triggers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //turn off portal UI
+        player.GetComponent<WorldShift>().HideShiftCounter();
     }
 
     // Update is called once per frame
@@ -24,6 +26,7 @@ public class Triggers : MonoBehaviour
         if(collision.gameObject.tag == "Tutorial Level 2")
         {
             player.GetComponent<WorldShift>().enabled = true;
+            player.GetComponent<WorldShift>().ShowShiftCounter();
         }
         if(collision.gameObject.tag == "Tutorial Level 3")
         {

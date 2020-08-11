@@ -12,6 +12,13 @@ TagManager:
   - Tutorial Level 2
   - Tutorial Level 3
   - Tutorial Level 4
+  - StartOption
+  - QuitOption
+  - MenuCanvas
+  - ResumeGameOption
+  - MainMenuOption
+  - RestartOption
+  - NextLevelTrigger
   layers:
   - Default
   - TransparentFX

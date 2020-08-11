@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+//I saw bug inside this document couple times. it seems like the array here is out of.
 
 public class Health : MonoBehaviour
 {
@@ -14,6 +17,19 @@ public class Health : MonoBehaviour
     public Image[] broken_hearts;
     public Image[] bg_hearts;
     public GameObject game_over;
+    [SerializeField] private AudioClip healthpackSound;
+    [SerializeField] private AudioClip getHurtSound;
+    private bool isColliding = false;
+
+    [Header("Events")]
+    [Space]
+    public static UnityEvent onTakenDamage;
+
+    private void Awake()
+    {
+        if (onTakenDamage == null)
+            onTakenDamage = new UnityEvent();
+    }
 
     private void Start()
     {
@@ -23,21 +39,27 @@ public class Health : MonoBehaviour
         {
             HideHealth();
         }
-
+        onTakenDamage.AddListener(TakeDamage);
     }
 
     public void TakeDamage()
     {
-        if(current_health <= 1)
+        
+        if (current_health <= 1)
         {
             current_health--;
-            hearts[current_health].enabled = false;
+
+            hearts[current_health].enabled = false; //  goes wrong when current health lower than 0;
+
             game_over.SetActive(true); //display game over
         }
         else
         {
             current_health--; //subtract from health
             state = true; //set invulnerability
+            if (getHurtSound != null) {
+                AudioSource.PlayClipAtPoint(getHurtSound, transform.position);
+            }
             //play invulnerable anim
             Invoke("ResetState", invulnerability_cd); //disable invulnerability
             hearts[current_health].enabled = false; //hide heart
@@ -68,11 +90,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeHealth(GameObject obj)
+    public void TakeHealth()
     {
         current_health++; //add to health
         hearts[current_health - 1].enabled = true; //show heart
-        Destroy(obj);
+        if (healthpackSound != null) {
+            AudioSource.PlayClipAtPoint(healthpackSound, transform.position);
+        }
     }
 
     public int ReturnHealth()
@@ -93,11 +117,25 @@ public class Health : MonoBehaviour
         }
     }
 
+    private void CheckFirstCollision()
+    {
+        if(isColliding == false)
+        {
+            isColliding = true;
+        }
+        else
+        {
+            isColliding = false;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Health" && current_health < max_health)
+        CheckFirstCollision();
+        if(collision.gameObject.tag == "Health" && current_health < max_health && isColliding == true)
         {
-            TakeHealth(collision.gameObject);
+            Destroy(collision.gameObject);
+            TakeHealth();
         }
     }
 }

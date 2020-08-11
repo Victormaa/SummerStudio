@@ -8,7 +8,7 @@ using UnityEngine;
 
 public enum LaserState
 {
-    Hide,
+    Hide, // should this enemy appear only in one world?
     Sleeping,
     Alerting,
     Aiming,
@@ -18,32 +18,41 @@ public enum LaserState
 
 public class LaserEye : MonoBehaviour
 {
-    public LaserState mLaserState = LaserState.Hide;
+    public LaserState mLaserState = LaserState.Hide;    //temporary "public" it should be private in most case
 
-    private Transform target;
+    private Transform target;   // the attact target.
 
-    private bool left = false; //represent the eye's position
+    private bool left = false; //Now the laser eye only looks to 2 direction. left and right
 
-    private bool shotingleft = false; //The Shoting Moment represent the eye's position
+    //The behavior I designed was laser wont shot if player run out of his locked area.
+    //private bool shotingleft = false; //The Shoting Moment represent the eye's position
 
-    private float _time = 0;
+    private float _time = 0; // time to record stay at each state.
 
-    private Vector2 _shotLastPosition = Vector2.zero; //the last position player stayed at
+    private Vector2 _shotLastPosition = Vector2.zero; //the Locked position player stayed at
 
     [Header("General")]
 
-    public LineRenderer lineRenderer;
-    public float range = 7.5f;
-    public Transform firePoint;
+    public LineRenderer lineRenderer;   //demo's effect
+    public float range = 7.5f;  //shooting range, eye go alert when player inside this range around him
+    public Transform firePoint; //the position of the eye
     public float AimToLockTime = 1; //AimToLockTime
     public float AlertToAimTime = 3; // AwakeToAimTime
-    public Animator animator;
-    public float LockedToShootTime = 0;
+    public Animator animator;   //
+    public float LockedToShootTime = 0; // as the name
+
+    public ParticleSystem chargingEffect;   //particle effect when laser hit stuff.
+    public AudioSource chargingSound;   //sounds when charging
+
+    [Header("Direction")]
+    Vector2 normalVec;
+    Vector2 playersDirVec;
 
     [Header("Temperary")]
 
     public GameObject Bursteffect;
     public LineRenderer shotlineRenderer;
+    public LineRenderer testlineRenderer;
 
     private void Awake()
     {
@@ -52,6 +61,12 @@ public class LaserEye : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject root = this.transform.Find("Root").gameObject;
+
+        normalVec = new Vector2(firePoint.position.x, firePoint.position.y) 
+            - new Vector2(root.transform.position.x, root.transform.position.y);
+        normalVec = normalVec.normalized;
+
         changeState(LaserState.Hide);
     }
 
@@ -71,10 +86,10 @@ public class LaserEye : MonoBehaviour
     {
         if (this.enabled && mLaserState == LaserState.Hide)
             changeState(LaserState.Sleeping);
-
         target = GameObject.FindGameObjectWithTag("Player").transform;
         Vector2 FP = firePoint.position;
         Vector2 TP = target.position;
+        playersDirVec = (TP - FP).normalized;
         switch (mLaserState)
         {
             case LaserState.Hide:
@@ -82,7 +97,7 @@ public class LaserEye : MonoBehaviour
                 break;
             case LaserState.Sleeping:
                 //Lasereye would close
-                if(Vector2.Distance(FP, TP) < range)
+                if(Vector2.Distance(FP, TP) < range && Vector2.Dot(playersDirVec, normalVec) > 0)
                 {
                     changeState(LaserState.Alerting);
                 }
@@ -107,7 +122,7 @@ public class LaserEye : MonoBehaviour
                     changeState(LaserState.Sleeping);
                 }
                 // if player get out of the detect range
-                if (Vector2.Distance(FP, TP) > range)
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
@@ -118,13 +133,8 @@ public class LaserEye : MonoBehaviour
                 _time += Time.deltaTime;
                 if (_time > AimToLockTime)
                 {
-                    //if (shotingleft == left)
-                    //{
                         _shotLastPosition = target.position - firePoint.position;
-                        renderline(target.position, firePoint.position);
-                        Invoke("Burst", LockedToShootTime);
                         changeState(LaserState.Locked);
-                    //}
                 }
                 if (Vector2.Distance(FP, TP) > range)
                 {
@@ -132,7 +142,8 @@ public class LaserEye : MonoBehaviour
                 }
                 break;
             case LaserState.Locked:
-                if (Vector2.Distance(FP, TP) > range)
+
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
@@ -140,18 +151,7 @@ public class LaserEye : MonoBehaviour
             case LaserState.Shoot:
                 // shot state is a process
                 // the shot actually happens at the last moment of the state;
-                //shotingleft = (target.position.x - this.transform.position.x) < 0;
-
-                /*
-                if(shotingleft == left) // this stuff make sure the laser eye could shot like when player stay at the same side with detect
-                {
-                    Laser();
-                }
-                else
-                {
-                    lineRenderer.enabled = false;
-                }
-                */
+                
 
                 //_time += Time.deltaTime;
 
@@ -170,7 +170,7 @@ public class LaserEye : MonoBehaviour
                 changeState(LaserState.Alerting);
                 //deal damage
 
-                if (Vector2.Distance(FP, TP) > range)
+                if (Vector2.Distance(FP, TP) > range || Vector2.Dot(playersDirVec, normalVec) < 0)
                 {
                     changeState(LaserState.Sleeping);
                 }
@@ -189,7 +189,13 @@ public class LaserEye : MonoBehaviour
         shotlineRenderer.enabled = false;
 
         hit2D = Physics2D.Raycast(firePoint.position, _shotLastPosition );
-        Instantiate(Bursteffect, hit2D.point, Quaternion.identity);
+        GameObject Shooteffect = Instantiate(Bursteffect, hit2D.point, Quaternion.identity);
+
+        if (hit2D.collider.gameObject.tag == "Player")
+            Health.onTakenDamage.Invoke();  //eventsystem
+
+        Shooteffect.GetComponent<ParticleSystem>().Play();
+        DestoryBullet(2, Shooteffect); // there could build a simple queue to hold the bullet not to destory.
         changeState(LaserState.Shoot);
     }
 
@@ -211,10 +217,13 @@ public class LaserEye : MonoBehaviour
                 animator.SetBool("Sleep", false);
                 break;
             case LaserState.Alerting:
-                CancelInvoke("CheckPlayer");
+                
                 break;
             case LaserState.Aiming:
                 lineRenderer.enabled = false;
+                chargingEffect.Stop();
+                chargingSound.Stop();
+                CancelInvoke("CheckPlayer");
                 break;
             case LaserState.Locked:
                 break;
@@ -244,9 +253,12 @@ public class LaserEye : MonoBehaviour
                 break;
             case LaserState.Aiming:
                 Debug.Log("Laser: Aiming State");
+                ChargeLaser();
                 _time = 0;
                 break;
             case LaserState.Locked:
+                renderline(target.position, firePoint.position);
+                Invoke("Burst", LockedToShootTime);
                 Debug.Log("Laser: Locked State");
                 break;
             case LaserState.Shoot:
@@ -271,5 +283,16 @@ public class LaserEye : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, target.position);
+    }
+
+    private void DestoryBullet(int secs, GameObject bullet)
+    {
+        Destroy(bullet, secs);
+    }
+
+    private void ChargeLaser()
+    {
+        chargingSound.Play();
+        chargingEffect.Play();
     }
 }
