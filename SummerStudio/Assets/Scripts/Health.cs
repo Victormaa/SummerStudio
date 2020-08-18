@@ -21,6 +21,11 @@ public class Health : MonoBehaviour
     [SerializeField] private AudioClip getHurtSound;
     private bool isColliding = false;
 
+    [Range(0, 1000)] [SerializeField] private float knockbackStrength = 500f;
+    [Range(0, 2)] [SerializeField] private float knockbackDuration = 1f;
+    [SerializeField] public Movement movement;
+    [SerializeField] private Rigidbody2D playerRigidbody2D;
+
     [Header("Events")]
     [Space]
     public static UnityEvent onTakenDamage;
@@ -114,6 +119,7 @@ public class Health : MonoBehaviour
         if(collision.gameObject.tag == "Enemy" && state != true)
         {
             TakeDamage();
+            Knockback(collision.gameObject);
         }
     }
 
@@ -136,6 +142,32 @@ public class Health : MonoBehaviour
         {
             Destroy(collision.gameObject);
             TakeHealth();
+        }
+        else if(collision.gameObject.tag == "Enemy" && state != true)
+        {
+            TakeDamage();
+            Knockback(collision.gameObject);
+        }
+    }
+
+    public void Knockback(GameObject enemy)
+    {
+        if (movement != null) {
+            movement.KBDisableControl(); //disable player controls for knockbackDuration
+            var vel = playerRigidbody2D.velocity;
+            Debug.Log(vel.x);
+            Vector2 knockbackDirection = new Vector2(-1f * vel.x / 7.5f, 1f); //calculate knockback direction
+            knockbackDirection.Normalize();
+            knockbackDirection = knockbackDirection * (knockbackStrength);
+            // Debug.Log(knockbackStrength + " strength, " + knockbackDuration + " duration, " + knockbackDirection.x + " " + knockbackDirection.y);
+            if (playerRigidbody2D != null) {
+                Vector3 vel2 = playerRigidbody2D.velocity;
+                vel2.x = 0f;
+			    vel2.y = 0f;
+                playerRigidbody2D.velocity = vel2;
+                playerRigidbody2D.AddForce(knockbackDirection); //add impulse force of knockback Strength away from enemy hit
+            }
+            movement.Invoke("KBEnableControl", knockbackDuration);
         }
     }
 }

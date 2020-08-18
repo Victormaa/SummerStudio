@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     private CharacterController2D m_controller2D;
     [SerializeField] Canvas pauseMenu;
     public bool characterControlEnabled = true; //disable when game is paused or if player dies/completes level
+    public bool characterKnockedBack = false;
     private float timeScaleAtPause = 1;
     [Range(5,50)]public float runSpeed = 40f;
     bool crouch = false;
@@ -68,7 +69,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (characterControlEnabled) {
+        if (characterControlEnabled && !characterKnockedBack) {
             m_controller2D.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
             jump = false;
         }
@@ -102,6 +103,14 @@ public class Movement : MonoBehaviour
         }
         Time.timeScale = timeScaleAtPause;
         Debug.Log("Game Unpaused.");
+    }
+
+    public void KBDisableControl() { //disables control from being knocked back
+        characterKnockedBack = true;
+    }
+
+    public void KBEnableControl() { //enables control after being knocked back
+        characterKnockedBack = false;
     }
 }
 
