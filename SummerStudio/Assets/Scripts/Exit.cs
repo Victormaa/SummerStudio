@@ -38,7 +38,7 @@ public class Exit : MonoBehaviour
             required_parts = this.gameObject.GetComponent<Collectables>().required_machine_parts;
             Debug.Log(collected_parts);
 
-            if(collected_parts >= required_parts)
+            if(collected_parts >= required_parts && level_complete.activeSelf == false)
             {
                 if (endDoor != null) {
                     endDoor.GetComponent<Animator>().SetTrigger("OpenDoor");
