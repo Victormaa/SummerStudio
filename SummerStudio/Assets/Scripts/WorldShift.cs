@@ -150,11 +150,42 @@ public class WorldShift : MonoBehaviour
         if (w_Type == true)
         {
             PostProcessVolume.SetActive(false);
+            if (tracks[0].volume < musicVolume) {
+                tracks[0].volume += (float) (Time.deltaTime* musicVolume/musicChangeDuration); //increase physical music volume to max 
+                if (tracks[0].volume > musicVolume) {
+                    tracks[0].volume = musicVolume;
+                }
+                Debug.Log("increasing 0's volume to "+ tracks[0].volume + ". target: " + musicVolume);
+            }
+            if (tracks[1].volume > 0f) {
+                tracks[1].volume -= (float) (Time.deltaTime* musicVolume/musicChangeDuration); //decrease kenos music volume to 0
+                if (tracks[1].volume < 0f ) {
+                    tracks[1].volume = 0f;
+                }
+                Debug.Log("decreasing 1's volume to "+ tracks[1].volume + ". target: 0." );
+            }
+            
         }
 
         else if(w_Type == false)
         {
             PostProcessVolume.SetActive(true);
+            if (tracks[0].volume > 0f) {
+                tracks[0].volume -= (float) (Time.deltaTime* musicVolume/musicChangeDuration); //decrease physical music volume to 0
+                if (tracks[0].volume < 0f ) {
+                    tracks[0].volume = 0f;
+                }
+                Debug.Log("decreasing 0's volume to "+ tracks[0].volume + ". target: 0.");
+            }
+            if (tracks[1].volume < musicVolume) {
+                tracks[1].volume += (float) (Time.deltaTime* musicVolume/musicChangeDuration); //increase kenos music volume to max
+                if (tracks[1].volume > musicVolume) {
+                    tracks[1].volume = musicVolume;
+                }
+                Debug.Log("increasing 1's volume to "+ tracks[1].volume + ". target: " + musicVolume);
+            }
+            
+            
         }
     }
 
@@ -185,19 +216,19 @@ public class WorldShift : MonoBehaviour
         ignore_Layer = !ignore_Layer; //toggle ignore field
         SetWorldTransparency(w_Type);
         gameManager.GetComponent<BulletTime>().EnableBulletTimeWithDuration(bulletTimeDuration);
-        if (w_Type)
-        {
-            float startingPhysVolume = tracks[0].volume;
-            float startingKenosVolume = tracks[1].volume;
-            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,musicVolume,musicChangeDuration));
-            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,0f,musicChangeDuration));
-        } else
-        {
-            float startingPhysVolume = tracks[0].volume;
-            float startingKenosVolume = tracks[1].volume;
-            StartCoroutine(ChangeGameVolume(0,startingPhysVolume,0f,musicChangeDuration));
-            StartCoroutine(ChangeGameVolume(1,startingKenosVolume,musicVolume,musicChangeDuration));
-        }
+        // if (w_Type)
+        // {
+        //     float startingPhysVolume = tracks[0].volume;
+        //     float startingKenosVolume = tracks[1].volume;
+        //     StartCoroutine(ChangeGameVolume(0,startingPhysVolume,musicVolume,musicChangeDuration));
+        //     StartCoroutine(ChangeGameVolume(1,startingKenosVolume,0f,musicChangeDuration));
+        // } else
+        // {
+        //     float startingPhysVolume = tracks[0].volume;
+        //     float startingKenosVolume = tracks[1].volume;
+        //     StartCoroutine(ChangeGameVolume(0,startingPhysVolume,0f,musicChangeDuration));
+        //     StartCoroutine(ChangeGameVolume(1,startingKenosVolume,musicVolume,musicChangeDuration));
+        // }
     }
 
     void SetWorldTransparency(bool world_state)
@@ -349,35 +380,35 @@ public class WorldShift : MonoBehaviour
         gameObject.GetComponent<SpriteShapeRenderer>().color = tmp2;
     }
 
-    IEnumerator ChangeGameVolume(int trackNumber, float startingVolume, float targetVolume, float duration) {
-        float v = startingVolume;
-        float t = 0f;
-        if (duration<=0) {
-            tracks[trackNumber].volume = targetVolume;
-        }
-        else if (startingVolume<targetVolume) {
-            while (v<targetVolume && t<duration) {
-                v += (float) (musicVolume * t/duration);
-                t+=Time.deltaTime;
-                if (v>targetVolume) {
-                    v= targetVolume;
-                }
-                tracks[trackNumber].volume = v;
-                // Debug.Log("increasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
-                yield return null;
-            }
-        }
-        else {
-            while (v>targetVolume && t<duration) {
-                v -= (float) (musicVolume * t/duration);
-                t+=Time.deltaTime;
-                if (v<targetVolume) {
-                    v= targetVolume;
-                }
-                tracks[trackNumber].volume = v;
-                // Debug.Log("decreasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
-                yield return null;
-            }
-        }
-    }
+    // IEnumerator ChangeGameVolume(int trackNumber, float startingVolume, float targetVolume, float duration) {
+    //     float v = startingVolume;
+    //     float t = 0f;
+    //     if (duration<=0) {
+    //         tracks[trackNumber].volume = targetVolume;
+    //     }
+    //     else if (startingVolume<targetVolume) {
+    //         while (v<targetVolume && t<duration) {
+    //             v += (float) (musicVolume * t/duration);
+    //             t+=Time.deltaTime;
+    //             if (v>targetVolume) {
+    //                 v= targetVolume;
+    //             }
+    //             tracks[trackNumber].volume = v;
+    //             // Debug.Log("increasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+    //             yield return null;
+    //         }
+    //     }
+    //     else {
+    //         while (v>targetVolume && t<duration) {
+    //             v -= (float) (musicVolume * t/duration);
+    //             t+=Time.deltaTime;
+    //             if (v<targetVolume) {
+    //                 v= targetVolume;
+    //             }
+    //             tracks[trackNumber].volume = v;
+    //             // Debug.Log("decreasing " + trackNumber + "'s volume to "+ v + ". Time elapsed: "+ t + "target: " + targetVolume);
+    //             yield return null;
+    //         }
+    //     }
+    // }
 }
