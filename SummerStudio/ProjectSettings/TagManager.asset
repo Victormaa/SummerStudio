@@ -19,6 +19,8 @@ TagManager:
   - MainMenuOption
   - RestartOption
   - NextLevelTrigger
+  - JumpPad
+  - FloatField
   layers:
   - Default
   - TransparentFX
