@@ -155,14 +155,14 @@ public class WorldShift : MonoBehaviour
                 if (tracks[0].volume > musicVolume) {
                     tracks[0].volume = musicVolume;
                 }
-                Debug.Log("increasing 0's volume to "+ tracks[0].volume + ". target: " + musicVolume);
+                // Debug.Log("increasing 0's volume to "+ tracks[0].volume + ". target: " + musicVolume);
             }
             if (tracks[1].volume > 0f) {
                 tracks[1].volume -= (float) (Time.deltaTime* musicVolume/musicChangeDuration); //decrease kenos music volume to 0
                 if (tracks[1].volume < 0f ) {
                     tracks[1].volume = 0f;
                 }
-                Debug.Log("decreasing 1's volume to "+ tracks[1].volume + ". target: 0." );
+                // Debug.Log("decreasing 1's volume to "+ tracks[1].volume + ". target: 0." );
             }
             
         }
@@ -175,14 +175,14 @@ public class WorldShift : MonoBehaviour
                 if (tracks[0].volume < 0f ) {
                     tracks[0].volume = 0f;
                 }
-                Debug.Log("decreasing 0's volume to "+ tracks[0].volume + ". target: 0.");
+                // Debug.Log("decreasing 0's volume to "+ tracks[0].volume + ". target: 0.");
             }
             if (tracks[1].volume < musicVolume) {
                 tracks[1].volume += (float) (Time.deltaTime* musicVolume/musicChangeDuration); //increase kenos music volume to max
                 if (tracks[1].volume > musicVolume) {
                     tracks[1].volume = musicVolume;
                 }
-                Debug.Log("increasing 1's volume to "+ tracks[1].volume + ". target: " + musicVolume);
+                // Debug.Log("increasing 1's volume to "+ tracks[1].volume + ". target: " + musicVolume);
             }
             
             
