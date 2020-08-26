@@ -8,6 +8,7 @@ public class PowerNode : MonoBehaviour
     [SerializeField] private FlyMovement[] flyList;
     [SerializeField] private float activationDuration = 5f;
     private float timeLastActivated = 0.0f;
+    private bool activated;
     private SpriteRenderer sprite;
 
     void Start() {
@@ -15,21 +16,23 @@ public class PowerNode : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (Time.time - timeLastActivated > activationDuration) {
+        if (activated && (Time.time - timeLastActivated > activationDuration)) {
             Deactivate();
         }
     }
 
     private void Activate() {
         if (sprite != null) {
-            sprite.color = new Color (0, 0.5f, 1, 1);
+            sprite.color = new Color (0, 0.5f, 1, sprite.color.a);
         }
+        activated = true;
     }
 
     private void Deactivate() {
         if (sprite != null) {
-            sprite.color = new Color (0, 0, 1, 1);
+            sprite.color = new Color (0, 0, 1, sprite.color.a);
         }
+        activated = false;
     }
 
     void OnTriggerStay2D(Collider2D collision)
