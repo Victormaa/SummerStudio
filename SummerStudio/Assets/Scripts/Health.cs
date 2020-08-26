@@ -143,12 +143,14 @@ public class Health : MonoBehaviour
             Destroy(collision.gameObject);
             TakeHealth();
         }
-        else if(collision.gameObject.tag == "Enemy" && state != true)
+        else if(collision.gameObject.tag == "Enemy" && state != true && gameObject.tag != "Kenos Collider")
         {
             TakeDamage();
             Knockback(collision.gameObject);
         }
     }
+
+    
 
     public void Knockback(GameObject enemy)
     {

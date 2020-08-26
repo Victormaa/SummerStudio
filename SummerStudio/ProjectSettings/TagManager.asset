@@ -19,6 +19,7 @@ TagManager:
   - MainMenuOption
   - RestartOption
   - NextLevelTrigger
+  - Kenos Collider
   layers:
   - Default
   - TransparentFX
@@ -34,7 +35,7 @@ TagManager:
   - Other
   - Collectables
   - Triggers
-  - 
+  - Indicator
   - 
   - 
   - 
