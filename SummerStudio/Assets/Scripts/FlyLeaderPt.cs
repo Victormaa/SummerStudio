@@ -8,7 +8,7 @@ public class FlyLeaderPt : MonoBehaviour
     // [SerializeField] private GameObject Boundaries;
     [SerializeField] private Rigidbody2D mRigidbody2D;
 
-    [SerializeField] private float speed = 4f;
+    [SerializeField] private float speed = 7f;
     [SerializeField] private float startingAngle;
     [SerializeField] private Vector2 direction;
     private bool anglePos;
@@ -39,13 +39,13 @@ public class FlyLeaderPt : MonoBehaviour
         
     }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "FlyFieldLimits") {
-            // Debug.Log("exit detected");
-            Vector2 normal = (transform.position - collision.transform.position).normalized;
-            mRigidbody2D.velocity = Vector2.Reflect(mRigidbody2D.velocity, normal);
-        }
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.tag == "FlyFieldLimits") {
+    //         Debug.Log("exit detected");
+    //         Vector2 normal = (transform.position - collision.transform.position).normalized;
+    //         mRigidbody2D.velocity = Vector2.Reflect(mRigidbody2D.velocity, collision.GetContact(0).normal);
+    //     }
         
-    }
+    // }
 }
