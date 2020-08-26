@@ -22,6 +22,7 @@ TagManager:
   - JumpPad
   - FloatField
   - FlyFieldLimits
+  - PowerNode
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3770835322830497408}
   - component: {fileID: 2256747619133473901}
   m_Layer: 8
-  m_Name: GameObject
+  m_Name: HitTrigger
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
