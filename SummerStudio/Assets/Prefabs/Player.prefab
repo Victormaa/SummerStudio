@@ -1495,7 +1495,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 6
 --- !u!114 &22965561071340283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1508,7 +1508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b10a14691d6f048b99a605c0e7d3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerShift: {fileID: 0}
+  detector: {fileID: 6887523131869561981}
+  playerShift: {fileID: 5029346234971668195}
   indicator: {fileID: 3225609804012363553}
   indicatorZone: {fileID: 2987583898924061189}
   effect: {fileID: 0}

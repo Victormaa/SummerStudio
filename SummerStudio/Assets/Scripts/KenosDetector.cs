@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KenosDetector : MonoBehaviour
 {
+    [SerializeField] private CircleCollider2D detector;
     [SerializeField] private WorldShift playerShift;
     [SerializeField] private GameObject indicator;
     [SerializeField] private GameObject indicatorZone;
@@ -30,11 +31,12 @@ public class KenosDetector : MonoBehaviour
         foreach (GameObject enemy in enemyList) { //for each indicator in for enemies
             Vector2 direction = enemy.transform.position - transform.position; //calculate vector between this and enemy
             int index = enemyList.IndexOf(enemy);
-            indicatorList[index].transform.up = direction;// rotate each indicator in indicatorlist to point to enemy
-            Color tmp = indicatorList[index].GetComponentInChildren<SpriteRenderer>().color;
-            tmp.a = 1-(direction.magnitude/4f);//set tranparency proportional to distance.
-            indicatorList[index].GetComponentInChildren<SpriteRenderer>().color = tmp;
-
+            if (index>=0) {
+                indicatorList[index].transform.up = direction;// rotate each indicator in indicatorlist to point to enemy
+                Color tmp = indicatorList[index].GetComponentInChildren<SpriteRenderer>().color;
+                tmp.a = 1-(direction.magnitude/detector.radius);//set tranparency proportional to distance.
+                indicatorList[index].GetComponentInChildren<SpriteRenderer>().color = tmp;
+            }
         }
         
 
@@ -50,6 +52,16 @@ public class KenosDetector : MonoBehaviour
             indicatorList[index].active = true;
             // Debug.Log("Enemy added at index " + index);
         }
+        else if (other.gameObject.tag == "Enemy" && !playerShift.w_Type && enemyList.Contains(other.gameObject)) { //if you shift remove those indicators
+            int index = enemyList.IndexOf(other.gameObject); //get index to remove object
+            if (index>=0) {
+                GameObject indicatorToRemove = indicatorList[index];
+                enemyList.Remove(other.gameObject);//remove enemy from enemylist
+                indicatorList.Remove(indicatorToRemove); //remove paired enemy
+                Destroy(indicatorToRemove); //destroy the removed indicator
+                // Debug.Log("Enemy removed at index " + index);
+            }
+        }
         if (other.gameObject.layer == 11 && playerShift.w_Type) { //if kenos platform is detected
             platformList.Add(other.gameObject);//add platform to platformlist
             //add effectobject
@@ -58,13 +70,15 @@ public class KenosDetector : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.tag == "Enemy") { //if enemy is detected 
+        if (other.gameObject.tag == "Enemy" && enemyList.Contains(other.gameObject)) { //if enemy is detected 
             int index = enemyList.IndexOf(other.gameObject); //get index to remove object
-            GameObject indicatorToRemove = indicatorList[index];
-            enemyList.Remove(other.gameObject);//remove enemy from enemylist
-            indicatorList.Remove(indicatorToRemove); //remove paired enemy
-            Destroy(indicatorToRemove); //destroy the removed indicator
-            // Debug.Log("Enemy removed at index " + index);
+            if (index>=0) {
+                GameObject indicatorToRemove = indicatorList[index];
+                enemyList.Remove(other.gameObject);//remove enemy from enemylist
+                indicatorList.Remove(indicatorToRemove); //remove paired enemy
+                Destroy(indicatorToRemove); //destroy the removed indicator
+                // Debug.Log("Enemy removed at index " + index);
+            }
         }
         if (other.gameObject.layer == 11) { //if kenos platform is detected
             platformList.Remove(other.gameObject);//remove platform from platformlist
