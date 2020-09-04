@@ -6,7 +6,8 @@ public class BulletSpitter : MonoBehaviour
 {
     public GameObject bullet;
     public GameObject spawnPoint;
-    public bool bulletDirection; //true = up, false = down
+    public int bulletDirection; //1 = up, 2 = down, 3 = left, 4 = right
+    public float bulletSpeed;
     public bool isActivated;
     private GameObject bulletObj;
     [SerializeField] private float currentTime;
@@ -36,8 +37,17 @@ public class BulletSpitter : MonoBehaviour
 
     void Fire()
     {
-        bulletObj = Instantiate(bullet, spawnPoint.transform.position, Quaternion.identity);
+        if(bulletDirection == 1 || bulletDirection == 2)
+        {
+            bulletObj = Instantiate(bullet, spawnPoint.transform.position, Quaternion.identity);
+        }
+        else if(bulletDirection == 3 || bulletDirection == 4)
+        {
+            bulletObj = Instantiate(bullet, spawnPoint.transform.position, Quaternion.identity);
+            bulletObj.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+        }
         bulletObj.name = this.gameObject.name + "bullet";
         bulletObj.GetComponent<Bullet>().SetBulletDirection(bulletDirection);
+        bulletObj.GetComponent<Bullet>().SetBulletSpeed(bulletSpeed);
     }
 }
