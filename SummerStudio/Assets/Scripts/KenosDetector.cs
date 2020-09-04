@@ -6,6 +6,7 @@ public class KenosDetector : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D detector;
     [SerializeField] private WorldShift playerShift;
+    [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private GameObject indicator;
     [SerializeField] private GameObject indicatorZone;
     [SerializeField] private GameObject effect;
@@ -39,9 +40,22 @@ public class KenosDetector : MonoBehaviour
             }
         }
         
-
-        //for each platform in platformlist
+        float closestDistance = detector.radius;
+        foreach (GameObject platform in platformList) {//for each platform in platformlist
+            Vector2 distanceVector = platform.transform.position - transform.position;
+            if (distanceVector.magnitude < closestDistance) {
+                closestDistance = distanceVector.magnitude; //get the distance to closest kenos platform
+            }
             //position corresponding effect in effectList
+        }
+        // if (playerSprite != null) { //change player sprite color
+        //     Color tmp2 = playerSprite.color;
+        //     float green = ((165f/255f) + ((90f/255f) * (closestDistance/detector.radius)));
+        //     float blue = ((240f/255f) + ((17f/255f) * (closestDistance/detector.radius)));
+        //     // Debug.Log("G: " + green + " B: " + blue);
+        //     tmp2 = new Color(1, green, blue);
+        //     playerSprite.color = tmp2;
+        // }
     }
 
     private void OnTriggerStay2D(Collider2D other) {
@@ -62,10 +76,15 @@ public class KenosDetector : MonoBehaviour
                 // Debug.Log("Enemy removed at index " + index);
             }
         }
-        if (other.gameObject.layer == 11 && playerShift.w_Type) { //if kenos platform is detected
+        if (other.gameObject.layer == 11 && other.gameObject.tag != "Enemy" && playerShift.w_Type && !platformList.Contains(other.gameObject)) { //if kenos platform is detected
             platformList.Add(other.gameObject);//add platform to platformlist
             //add effectobject
-            // Debug.Log("Platform added");
+            Debug.Log("Platform added");
+        }
+        else if (other.gameObject.layer == 11 && other.gameObject.tag != "Enemy" && !playerShift.w_Type && platformList.Contains(other.gameObject)) { //if kenos platform is detected
+            platformList.Remove(other.gameObject);//remove platform from platformlist
+            //remove effect object
+            Debug.Log("Platform removed");
         }
     }
 
@@ -80,10 +99,10 @@ public class KenosDetector : MonoBehaviour
                 // Debug.Log("Enemy removed at index " + index);
             }
         }
-        if (other.gameObject.layer == 11) { //if kenos platform is detected
+        if (other.gameObject.layer == 11 && other.gameObject.tag != "Enemy" && platformList.Contains(other.gameObject)) { //if kenos platform is detected
             platformList.Remove(other.gameObject);//remove platform from platformlist
             //remove paired effectobject
-            // Debug.Log("Platform removed");
+            Debug.Log("Platform removed");
         }
     }    
 

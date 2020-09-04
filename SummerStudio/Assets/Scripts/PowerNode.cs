@@ -38,7 +38,7 @@ public class PowerNode : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player") {
-            // Debug.Log("power node hit");
+            Debug.Log("power node hit");
             Activate();
             timeLastActivated = Time.time;
             System.Array.Clear(flyList,0,flyList.Length); //clear fly list
