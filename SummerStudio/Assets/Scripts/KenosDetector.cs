@@ -9,8 +9,9 @@ public class KenosDetector : MonoBehaviour
     [SerializeField] private SpriteRenderer playerSprite;
     [SerializeField] private GameObject indicator;
     [SerializeField] private GameObject indicatorZone;
-    [SerializeField] private GameObject effect;
-    [SerializeField] private GameObject effectZone;
+    // [SerializeField] private GameObject effect;
+    // [SerializeField] private GameObject effectZone;
+    [SerializeField] private ParticleSystem particles;
 
     private List<GameObject> enemyList = new List<GameObject>();
     private List<GameObject> indicatorList = new List<GameObject>();
@@ -48,6 +49,17 @@ public class KenosDetector : MonoBehaviour
             }
             //position corresponding effect in effectList
         }
+        float emisRate = (11* (1 - closestDistance/detector.radius) +4);
+        if (emisRate <= 4) {
+            emisRate = 0f;
+        }
+        else if (emisRate >10) {
+            emisRate = 10;
+        }
+        Debug.Log("emit rate: " + emisRate);
+        var particleEmission = particles.emission;
+        particleEmission.rateOverTime = emisRate;
+        // particles.Emit(emisRate);
         // if (playerSprite != null) { //change player sprite color
         //     Color tmp2 = playerSprite.color;
         //     float green = ((165f/255f) + ((90f/255f) * (closestDistance/detector.radius)));
